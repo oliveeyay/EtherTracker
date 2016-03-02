@@ -13,8 +13,14 @@ Track the ether value from coinmarketcap.com
 
 ========
 
+### Donations? (beers are accepted too)
+- Bitcoin:
+![Bitcoin](images/bitcoin.png)
+
+========
+
 ### Open-source libraries used:
-        Retrofit: square.github.io/retrofit/
+- Retrofit: square.github.io/retrofit/
 
 ========
 

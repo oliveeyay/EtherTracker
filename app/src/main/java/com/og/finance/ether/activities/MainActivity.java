@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,9 @@ package com.og.finance.ether.activities;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.databinding.ActivityMainBinding;
@@ -26,6 +28,7 @@ import com.og.finance.ether.network.NetworkCallback;
 import com.og.finance.ether.network.NetworkManager;
 import com.og.finance.ether.network.apis.EtherApi;
 import com.og.finance.ether.receivers.AutoUpdateReceiver;
+import com.og.finance.ether.utilities.PriceFormatUtilities;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
 public class MainActivity extends AppCompatActivity implements NetworkCallback<EtherApi> {
@@ -44,6 +47,24 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback<E
 
         NetworkManager.getCurrentEthValue(this);
 
+        float valueF = SharedPreferencesUtilities.getFloatForKey(this, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
+        String value = valueF == 0.0f ? "" : String.valueOf(valueF);
+        mBinding.activityMainEdittext.setText(value);
+        mBinding.activityMainEdittextSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBinding.activityMainEdittext.getText().toString().isEmpty()) {
+                    SharedPreferencesUtilities.deleteKey(MainActivity.this, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
+                } else {
+                    try {
+                        SharedPreferencesUtilities.storeFloatForKey(MainActivity.this, SharedPreferencesUtilities.SHARED_BUYING_VALUE, Float.parseFloat(mBinding.activityMainEdittext.getText().toString()));
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "Wrong number entered", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
         mBinding.activityMainCheckbox.setChecked(SharedPreferencesUtilities.getBooleanForKey(this, SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
         mBinding.activityMainCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -59,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback<E
     @Override
     public void updateApi(EtherApi api) {
         if (api != null && api.getPrice() != null) {
-            mBinding.activityMainText.setText("Price: " + api.getPrice().getUsd() + "     Change:" + api.getChange());
+            mBinding.activityMainText.setText(PriceFormatUtilities.getPriceFormated(this, api));
         }
     }
 }

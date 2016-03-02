@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,11 @@ public final class SharedPreferencesUtilities {
      * The key for SharedPreferences (private mode, internal system storage)
      */
     public static final String SHARED_PREFERENCES = "ETHER_SHARED_PREFERENCES";
+
+    /**
+     * The float that is gonna be compared to the current value in the notification.
+     */
+    public static final String SHARED_BUYING_VALUE = "SHARED_BUYING_VALUE";
 
     /**
      * The boolean to know if we run the {@link com.og.finance.ether.services.AutoUpdateService}
@@ -99,6 +104,38 @@ public final class SharedPreferencesUtilities {
         }
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return sharedPref.getBoolean(key, true);
+    }
+
+    /**
+     * Store a float into the private {@link SharedPreferences} of the app.
+     *
+     * @param context The current context of the app
+     * @param key     The key we want to be used to store the string
+     * @param value   The float we want to be stored
+     */
+    public static void storeFloatForKey(Context context, String key, float value) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putFloat(key, value);
+        editor.apply();
+    }
+
+    /**
+     * Get a float from the private {@link SharedPreferences} of the app
+     *
+     * @param context The current context of the app
+     * @param key     The key we want to request
+     * @return The float retrieved from the given key, or true by default
+     */
+    public static float getFloatForKey(Context context, String key) {
+        if (context == null) {
+            return 0.0f;
+        }
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPref.getFloat(key, 0.0f);
     }
 
     /**
