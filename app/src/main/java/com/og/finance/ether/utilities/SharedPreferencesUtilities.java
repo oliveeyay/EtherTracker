@@ -37,6 +37,12 @@ public final class SharedPreferencesUtilities {
      * The boolean to know if we run the {@link com.og.finance.ether.services.AutoUpdateService}
      * or not.
      */
+    public static final String SHARED_ENDPOINT_ID = "SHARED_ENDPOINT_ID";
+
+    /**
+     * The boolean to know if we run the {@link com.og.finance.ether.services.AutoUpdateService}
+     * or not.
+     */
     public static final String SHARED_SERVICE_ACTIVE = "SHARED_SERVICE_ACTIVE";
 
     private SharedPreferencesUtilities() {
@@ -120,6 +126,38 @@ public final class SharedPreferencesUtilities {
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putFloat(key, value);
+        editor.apply();
+    }
+
+    /**
+     * Get a int from the private {@link SharedPreferences} of the app
+     *
+     * @param context The current context of the app
+     * @param key     The key we want to request
+     * @return The int retrieved from the given key, or 1 by default
+     */
+    public static int getIntForKey(Context context, String key) {
+        if (context == null) {
+            return 1;
+        }
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPref.getInt(key, 1);
+    }
+
+    /**
+     * Store a int into the private {@link SharedPreferences} of the app.
+     *
+     * @param context The current context of the app
+     * @param key     The key we want to be used to store the string
+     * @param value   The int we want to be stored
+     */
+    public static void storeIntForKey(Context context, String key, int value) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(key, value);
         editor.apply();
     }
 

@@ -1,26 +1,9 @@
-# EtherTracker
-Allows to track ether values (ethereum currency) thanks to coinmarketcap api
+# Donations
+I was mainly using this app for my own crypto currencies, but I figured out it could be useful for other people too.
+If you want to thank me for my work, don't hesitate to donate a beer in bitcoin :)
 
-### Usage
-
-Display a persistent notification that refreshes every 20 minutes.
-Track the ether value from coinmarketcap.com OR kraken.com
-
-========
-
-### By Developer:
-        [Olivier Goutay](https://github.com/olivierg13)
-
-========
-
-### Donations? (beers are accepted too)
 - Ether: 0xb2dca3fb4769f652bb1c8795bcc9e7016b0f216c
 - Bitcoin: 1GGKCE2pNDbk7fhPDoG9SeCw3acKJrL2LW
-
-========
-
-### Open-source libraries used:
-- Retrofit: square.github.io/retrofit/
 
 ========
 

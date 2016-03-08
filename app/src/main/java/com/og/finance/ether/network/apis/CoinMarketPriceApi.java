@@ -28,7 +28,7 @@ import com.google.gson.annotations.SerializedName;
  * "btc": "0.0144189"
  * },
  */
-public class PriceApi extends Api {
+public class CoinMarketPriceApi extends Api {
 
     @SerializedName("usd")
     private Float mUsd;
@@ -39,7 +39,7 @@ public class PriceApi extends Api {
     @SerializedName("btc")
     private Float mBtc;
 
-    public PriceApi(Float usd, Float euro, Float btc) {
+    public CoinMarketPriceApi(Float usd, Float euro, Float btc) {
         this.mUsd = usd;
         this.mEuro = euro;
         this.mBtc = btc;

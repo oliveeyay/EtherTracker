@@ -26,12 +26,13 @@ import com.og.finance.ether.R;
 import com.og.finance.ether.databinding.ActivityMainBinding;
 import com.og.finance.ether.network.NetworkCallback;
 import com.og.finance.ether.network.NetworkManager;
-import com.og.finance.ether.network.apis.EtherApi;
+import com.og.finance.ether.network.apis.BaseEtherApi;
+import com.og.finance.ether.network.enums.Endpoint;
 import com.og.finance.ether.receivers.AutoUpdateReceiver;
 import com.og.finance.ether.utilities.PriceFormatUtilities;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
-public class MainActivity extends AppCompatActivity implements NetworkCallback<EtherApi> {
+public class MainActivity extends AppCompatActivity implements NetworkCallback<BaseEtherApi> {
 
     private ActivityMainBinding mBinding;
 
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback<E
 
         NetworkManager.getCurrentEthValue(this);
 
+        initButtons();
+
+        AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
+    }
+
+    private void initButtons() {
         float valueF = SharedPreferencesUtilities.getFloatForKey(this, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
         String value = valueF == 0.0f ? "" : String.valueOf(valueF);
         mBinding.activityMainEdittext.setText(value);
@@ -74,13 +81,40 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback<E
             }
         });
 
+        Endpoint endpoint = Endpoint.getCurrentEndpoint();
+        switch (endpoint) {
+            case KRAKEN:
+                mBinding.activityMainRadioKraken.setChecked(true);
+                break;
+            case COIN_MARKET_CAP:
+            default:
+                mBinding.activityMainRadioCoinmarketcap.setChecked(true);
+                break;
+        }
+    }
+
+    /**
+     * Click on {@link ActivityMainBinding#activityMainRadioCoinmarketcap}
+     */
+    public void onRadioButtonClickedCoinMarketCap(View view) {
+        SharedPreferencesUtilities.storeIntForKey(this, SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.COIN_MARKET_CAP.getId());
+        NetworkManager.getCurrentEthValue(this);
+        AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
+    }
+
+    /**
+     * Click on {@link ActivityMainBinding#activityMainRadioKraken}
+     */
+    public void onRadioButtonClickedKraken(View view) {
+        SharedPreferencesUtilities.storeIntForKey(this, SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.KRAKEN.getId());
+        NetworkManager.getCurrentEthValue(this);
         AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
     }
 
     @Override
-    public void updateApi(EtherApi api) {
-        if (api != null && api.getPrice() != null) {
-            mBinding.activityMainText.setText(PriceFormatUtilities.getPriceFormated(this, api));
+    public void updateApi(BaseEtherApi api) {
+        if (api != null && api.getPriceValue() != null) {
+            mBinding.activityMainText.setText(PriceFormatUtilities.getPriceFormatted(this, api));
         }
     }
 }

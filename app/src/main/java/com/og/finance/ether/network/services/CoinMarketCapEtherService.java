@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.og.finance.ether.network;
+package com.og.finance.ether.network.services;
 
-import com.og.finance.ether.network.apis.EtherApi;
+import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -24,8 +24,8 @@ import retrofit2.http.GET;
  * Created by olivier.goutay on 2/29/16.
  * http://coinmarketcap-nexuist.rhcloud.com/api/eth
  */
-public interface CoinMarketCapService {
+public interface CoinMarketCapEtherService {
 
-    @GET("api/eth")
-    Call<EtherApi> getCurrentEthValue();
+    @GET("api/eth/")
+    Call<CoinMarketEtherApi> getCurrentEthValue();
 }

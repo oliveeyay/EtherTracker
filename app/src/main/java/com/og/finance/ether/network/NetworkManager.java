@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,12 @@
  */
 package com.og.finance.ether.network;
 
-import com.og.finance.ether.network.apis.Api;
-import com.og.finance.ether.network.apis.EtherApi;
+import com.og.finance.ether.network.apis.BaseEtherApi;
+import com.og.finance.ether.network.apis.CoinMarketEtherApi;
+import com.og.finance.ether.network.apis.KrakenEtherApi;
+import com.og.finance.ether.network.enums.Endpoint;
+import com.og.finance.ether.network.services.CoinMarketCapEtherService;
+import com.og.finance.ether.network.services.KrakenEtherService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,12 +32,7 @@ import retrofit2.Retrofit;
  * Created by olivier.goutay on 2/29/16.
  * Uses {@link Retrofit} to call the ether api
  */
-public class NetworkManager<T extends Api> {
-
-    /**
-     * The base URL of coinmarketcap
-     */
-    static final String URL = "http://coinmarketcap-nexuist.rhcloud.com";
+public class NetworkManager<T extends BaseEtherApi> {
 
     /**
      * The instance of {@link Retrofit}
@@ -41,21 +40,32 @@ public class NetworkManager<T extends Api> {
     private static Retrofit mRetrofit;
 
     /**
-     * Returns the latest {@link EtherApi} through the {@link Retrofit} interface {@link NetworkCallback}
+     * Returns the latest {@link CoinMarketEtherApi} through the {@link Retrofit} interface {@link NetworkCallback}
      *
      * @param callback
      */
-    public static void getCurrentEthValue(NetworkCallback<EtherApi> callback) {
-        Retrofit retrofit = getRetrofit();
+    public static void getCurrentEthValue(NetworkCallback<BaseEtherApi> callback) {
+        Endpoint endpoint = Endpoint.getCurrentEndpoint();
 
-        CoinMarketCapService service = retrofit.create(CoinMarketCapService.class);
-        new NetworkManager<EtherApi>().getResponse(service.getCurrentEthValue(), callback);
+        Retrofit retrofit = getRetrofit(endpoint);
+
+        switch (endpoint) {
+            case KRAKEN:
+                KrakenEtherService krakenEtherService = retrofit.create(KrakenEtherService.class);
+                new NetworkManager<KrakenEtherApi>().getResponse(krakenEtherService.getCurrentEthValue(), callback);
+                break;
+            case COIN_MARKET_CAP:
+            default:
+                CoinMarketCapEtherService coinMarketCapEtherService = retrofit.create(CoinMarketCapEtherService.class);
+                new NetworkManager<CoinMarketEtherApi>().getResponse(coinMarketCapEtherService.getCurrentEthValue(), callback);
+                break;
+        }
     }
 
     /**
      * Do a generic call and returns it to the main {@link Thread} through the {@link NetworkCallback}
      */
-    private void getResponse(Call<T> call, final NetworkCallback<T> callback) {
+    private void getResponse(Call<T> call, final NetworkCallback<BaseEtherApi> callback) {
         call.enqueue(new Callback<T>() {
 
             @Override
@@ -73,13 +83,11 @@ public class NetworkManager<T extends Api> {
     /**
      * Get the {@link Retrofit} instance
      */
-    private static Retrofit getRetrofit() {
-        if (mRetrofit == null) {
-            mRetrofit = new Retrofit.Builder()
-                    .baseUrl(URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
+    private static Retrofit getRetrofit(Endpoint endpoint) {
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(endpoint.getUrl())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         return mRetrofit;
     }

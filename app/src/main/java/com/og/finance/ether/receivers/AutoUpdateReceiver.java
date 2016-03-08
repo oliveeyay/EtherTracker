@@ -23,6 +23,7 @@ import android.content.Intent;
 
 import com.og.finance.ether.BuildConfig;
 import com.og.finance.ether.services.AutoUpdateService;
+import com.og.finance.ether.utilities.NotificationUtilities;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
 import java.util.Calendar;
@@ -171,6 +172,7 @@ public class AutoUpdateReceiver extends BroadcastReceiver {
      */
     public static void stopAutoUpdate(Context context) {
         stopAutoUpdateService(context);
+        NotificationUtilities.cancelNotification(context);
     }
 
 }

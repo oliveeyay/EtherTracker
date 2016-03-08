@@ -23,14 +23,14 @@ import android.util.Log;
 
 import com.og.finance.ether.network.NetworkCallback;
 import com.og.finance.ether.network.NetworkManager;
-import com.og.finance.ether.network.apis.EtherApi;
+import com.og.finance.ether.network.apis.BaseEtherApi;
 import com.og.finance.ether.utilities.NotificationUtilities;
 
 /**
  * Created by olivier.goutay on 2/29/16.
  * The service launched by {@link com.og.finance.ether.receivers.AutoUpdateReceiver} every 20 min
  */
-public class AutoUpdateService extends Service implements NetworkCallback<EtherApi> {
+public class AutoUpdateService extends Service implements NetworkCallback<BaseEtherApi> {
 
     private static final String TAG = "";
 
@@ -49,7 +49,7 @@ public class AutoUpdateService extends Service implements NetworkCallback<EtherA
     }
 
     @Override
-    public void updateApi(EtherApi api) {
+    public void updateApi(BaseEtherApi api) {
         NotificationUtilities.showNotification(getApplicationContext(), api);
     }
 }

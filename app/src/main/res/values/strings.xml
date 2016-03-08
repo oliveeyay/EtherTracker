@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Ether Tracker</string>
+
+    <!-- MainActivity -->
+    <string name="activity_main_buying_value">Choose your buying value</string>
+    <string name="activity_main_persistent_notification">Enable persistent notification</string>
+    <string name="activity_main_source">Choose the source:</string>
+    <string name="activity_main_coinmarketcap">CoinMarketCap</string>
+    <string name="activity_main_kraken">Kraken</string>
+    <string name="activity_main_save">Save</string>
 </resources>

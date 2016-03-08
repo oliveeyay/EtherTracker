@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.og.finance.ether.network.apis;
+package com.og.finance.ether.network.services;
 
-import java.io.Serializable;
+import com.og.finance.ether.network.apis.KrakenEtherApi;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
 
 /**
  * Created by olivier.goutay on 2/29/16.
+ * http://coinmarketcap-nexuist.rhcloud.com/api/eth
  */
-public abstract class Api implements Serializable {
+public interface KrakenEtherService {
 
+    @GET("Ticker?pair=ethusd")
+    Call<KrakenEtherApi> getCurrentEthValue();
 }
