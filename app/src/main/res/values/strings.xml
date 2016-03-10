@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">Ether Tracker</string>
+    <string name="network_error">Oops! Could not connect to network</string>
 
     <!-- MainActivity -->
     <string name="activity_main_buying_value">Choose your buying value</string>
     <string name="activity_main_persistent_notification">Enable persistent notification</string>
     <string name="activity_main_source">Choose the source:</string>
+    <string name="activity_main_polionex">Polionex</string>
     <string name="activity_main_coinmarketcap">CoinMarketCap</string>
     <string name="activity_main_kraken">Kraken</string>
     <string name="activity_main_save">Save</string>
+    <string name="activity_main_donation"><u>Donate to the developer?</u></string>
+    <string name="activity_main_donation_link">https://github.com/olivierg13/EtherTracker/blob/master/DONATION.md</string>
+
 </resources>

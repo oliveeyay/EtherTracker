@@ -25,7 +25,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.activities.MainActivity;
-import com.og.finance.ether.network.apis.BaseEtherApi;
+import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 
 /**
@@ -39,7 +39,7 @@ public class NotificationUtilities {
      * @param context  The current context of the app
      * @param etherApi The latest {@link CoinMarketEtherApi}
      */
-    public static void showNotification(Context context, BaseEtherApi etherApi) {
+    public static void showNotification(Context context, AbstractEtherApi etherApi) {
         if (etherApi != null && etherApi.getPriceValue() != null) {
             Intent intent = new Intent(context, MainActivity.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -52,7 +52,7 @@ public class NotificationUtilities {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Ether Tracker")
                     .setOngoing(true)
-                    .setContentText(PriceFormatUtilities.getPriceFormatted(context, etherApi))
+                    .setContentText(PriceFormatUtilities.getPriceFormatted(etherApi))
                     .setDefaults(Notification.DEFAULT_LIGHTS)
                     .setSound(Uri.EMPTY)
                     .setContentIntent(contentIntent);

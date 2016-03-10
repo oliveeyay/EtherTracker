@@ -33,15 +33,11 @@ public class CoinMarketPriceApi extends Api {
     @SerializedName("usd")
     private Float mUsd;
 
-    @SerializedName("eur")
-    private Float mEuro;
-
     @SerializedName("btc")
     private Float mBtc;
 
-    public CoinMarketPriceApi(Float usd, Float euro, Float btc) {
+    public CoinMarketPriceApi(Float usd, Float btc) {
         this.mUsd = usd;
-        this.mEuro = euro;
         this.mBtc = btc;
     }
 
@@ -51,14 +47,6 @@ public class CoinMarketPriceApi extends Api {
 
     public void setUsd(Float usd) {
         this.mUsd = usd;
-    }
-
-    public Float getEuro() {
-        return mEuro;
-    }
-
-    public void setEuro(Float euro) {
-        this.mEuro = euro;
     }
 
     public Float getBtc() {

@@ -5,6 +5,9 @@ If you want to thank me for my work, don't hesitate to donate a beer in bitcoin 
 - Ether: 0xb2dca3fb4769f652bb1c8795bcc9e7016b0f216c
 - Bitcoin: 1GGKCE2pNDbk7fhPDoG9SeCw3acKJrL2LW
 
+Also, if you have any idea on how to improve the app, or issues with the app itself, don't hesitate to email me (email address on my Play Store account).
+Also number 2, don't hesitate to send me some pull requests if you want to change the app itself (the app is open source).
+
 ========
 
 ### License

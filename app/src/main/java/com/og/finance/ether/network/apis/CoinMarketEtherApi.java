@@ -51,7 +51,7 @@ import com.google.gson.annotations.SerializedName;
  * "timestamp": 1456788610.953
  * }
  */
-public class CoinMarketEtherApi extends BaseEtherApi {
+public class CoinMarketEtherApi extends AbstractEtherApi {
 
     @SerializedName("price")
     private CoinMarketPriceApi mPriceApi;

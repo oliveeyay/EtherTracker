@@ -30,7 +30,7 @@ import com.google.gson.annotations.SerializedName;
  * "h":["11.46999","11.46999"],
  * "o":"11.18745"}}}
  */
-public class KrakenEtherApi extends BaseEtherApi {
+public class KrakenEtherApi extends AbstractEtherApi {
 
     @SerializedName("result")
     private KrakenResultApi mResultApi;

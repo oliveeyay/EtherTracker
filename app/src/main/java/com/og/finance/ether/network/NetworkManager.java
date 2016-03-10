@@ -15,12 +15,14 @@
  */
 package com.og.finance.ether.network;
 
-import com.og.finance.ether.network.apis.BaseEtherApi;
+import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 import com.og.finance.ether.network.apis.KrakenEtherApi;
+import com.og.finance.ether.network.apis.PolionexEtherApi;
 import com.og.finance.ether.network.enums.Endpoint;
 import com.og.finance.ether.network.services.CoinMarketCapEtherService;
 import com.og.finance.ether.network.services.KrakenEtherService;
+import com.og.finance.ether.network.services.PolionexEtherService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +34,7 @@ import retrofit2.Retrofit;
  * Created by olivier.goutay on 2/29/16.
  * Uses {@link Retrofit} to call the ether api
  */
-public class NetworkManager<T extends BaseEtherApi> {
+public class NetworkManager<T extends AbstractEtherApi> {
 
     /**
      * The instance of {@link Retrofit}
@@ -44,7 +46,7 @@ public class NetworkManager<T extends BaseEtherApi> {
      *
      * @param callback
      */
-    public static void getCurrentEthValue(NetworkCallback<BaseEtherApi> callback) {
+    public static void getCurrentEthValue(NetworkCallback<AbstractEtherApi> callback) {
         Endpoint endpoint = Endpoint.getCurrentEndpoint();
 
         Retrofit retrofit = getRetrofit(endpoint);
@@ -55,9 +57,13 @@ public class NetworkManager<T extends BaseEtherApi> {
                 new NetworkManager<KrakenEtherApi>().getResponse(krakenEtherService.getCurrentEthValue(), callback);
                 break;
             case COIN_MARKET_CAP:
-            default:
                 CoinMarketCapEtherService coinMarketCapEtherService = retrofit.create(CoinMarketCapEtherService.class);
                 new NetworkManager<CoinMarketEtherApi>().getResponse(coinMarketCapEtherService.getCurrentEthValue(), callback);
+                break;
+            case POLIONEX:
+            default:
+                PolionexEtherService polionexEtherService = retrofit.create(PolionexEtherService.class);
+                new NetworkManager<PolionexEtherApi>().getResponse(polionexEtherService.getCurrentEthValue(), callback);
                 break;
         }
     }
@@ -65,7 +71,7 @@ public class NetworkManager<T extends BaseEtherApi> {
     /**
      * Do a generic call and returns it to the main {@link Thread} through the {@link NetworkCallback}
      */
-    private void getResponse(Call<T> call, final NetworkCallback<BaseEtherApi> callback) {
+    private void getResponse(Call<T> call, final NetworkCallback<AbstractEtherApi> callback) {
         call.enqueue(new Callback<T>() {
 
             @Override

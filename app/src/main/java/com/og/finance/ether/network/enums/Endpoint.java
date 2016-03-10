@@ -4,6 +4,7 @@ import com.og.finance.ether.application.EtherApplication;
 import com.og.finance.ether.network.apis.Api;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 import com.og.finance.ether.network.apis.KrakenEtherApi;
+import com.og.finance.ether.network.apis.PolionexEtherApi;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
 /**
@@ -11,8 +12,9 @@ import com.og.finance.ether.utilities.SharedPreferencesUtilities;
  */
 public enum Endpoint {
 
-    COIN_MARKET_CAP(1, "http://coinmarketcap-nexuist.rhcloud.com/", CoinMarketEtherApi.class),
-    KRAKEN(2, "https://api.kraken.com/0/public/", KrakenEtherApi.class);
+    POLIONEX(1, "https://poloniex.com/", PolionexEtherApi.class),
+    COIN_MARKET_CAP(2, "http://coinmarketcap-nexuist.rhcloud.com/", CoinMarketEtherApi.class),
+    KRAKEN(3, "https://api.kraken.com/0/public/", KrakenEtherApi.class) ;
 
     private int mId;
     private String mUrl;
@@ -33,7 +35,7 @@ public enum Endpoint {
                 return endpoint;
             }
         }
-        return COIN_MARKET_CAP;
+        return POLIONEX;
     }
 
     /**

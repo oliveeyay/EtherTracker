@@ -1,10 +1,22 @@
 # EtherTracker
-Allows to track ether values (ethereum currency) thanks to coinmarketcap api
+Allows to track ether values (ethereum currency) thanks to different apis
 
 ### Usage
 
 Display a persistent notification that refreshes every 20 minutes.
-Track the ether value from coinmarketcap.com OR kraken.com
+Track the ether value from multiple sources:
+- polionex.com
+- coinmarketcap.com
+- kraken.com
+
+You can also input your buying value to see the variation.
+Have fun!
+
+========
+
+### Testing:
+- Functional tests (run the package com.og.finance.ether.functional) using Robotium
+- Unit tests (run the package com.og.finance.ether.unit) using AndroidTestCase
 
 ========
 
@@ -13,14 +25,22 @@ Track the ether value from coinmarketcap.com OR kraken.com
 
 ========
 
-### Donations? (beers are accepted too)
-- Ether: 0xb2dca3fb4769f652bb1c8795bcc9e7016b0f216c
-- Bitcoin: 1GGKCE2pNDbk7fhPDoG9SeCw3acKJrL2LW
+### Useful stuff:
+- Using Fabric (Crashlytics) to track issues with the app
 
 ========
 
 ### Open-source libraries used:
-- Retrofit: square.github.io/retrofit/
+- [Retrofit](http://square.github.io/retrofit/)
+- [Robotium](https://github.com/RobotiumTech/robotium)
+
+========
+
+### Donations? (beers are accepted too)
+- Ether: 0xb2dca3fb4769f652bb1c8795bcc9e7016b0f216c
+- Bitcoin: 1GGKCE2pNDbk7fhPDoG9SeCw3acKJrL2LW
+
+[See the Donation page for more details](DONATION.md)
 
 ========
 
