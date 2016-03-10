@@ -1,4 +1,4 @@
-package com.og.finance.ether.unit;
+package com.og.finance.ether.unit.utilities;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
@@ -9,6 +9,7 @@ import com.og.finance.ether.network.apis.KrakenPriceApi;
 import com.og.finance.ether.network.apis.KrakenResultApi;
 import com.og.finance.ether.network.apis.PolionexEtherApi;
 import com.og.finance.ether.network.apis.PolionexPriceApi;
+import com.og.finance.ether.unit.AbstractUnitTest;
 import com.og.finance.ether.utilities.PriceFormatUtilities;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
@@ -18,16 +19,6 @@ import java.util.ArrayList;
  * Created by olivier.goutay on 3/9/16.
  */
 public class PriceFormatUtilitiesTest extends AbstractUnitTest {
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        //Just deleting the SharedPreferences, to be sure we start fresh
-        SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE);
-        SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID);
-        SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE);
-    }
 
     /**
      * Test {@link com.og.finance.ether.utilities.PriceFormatUtilities#getPriceFormatted(AbstractEtherApi)}

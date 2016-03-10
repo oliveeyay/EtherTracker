@@ -1,6 +1,8 @@
-package com.og.finance.ether.functional;
+package com.og.finance.ether.functional.activities;
 
 import com.og.finance.ether.R;
+import com.og.finance.ether.databinding.ActivityMainBinding;
+import com.og.finance.ether.functional.AbstractFunctionalTest;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
 /**
@@ -10,7 +12,7 @@ import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 public class MainActivityTest extends AbstractFunctionalTest {
 
     /**
-     * Test the {@link com.og.finance.ether.databinding.ActivityMainBinding#activityMainRadioKraken} and others
+     * Test the {@link ActivityMainBinding#activityMainRadioKraken} and others
      */
     public void testRadioButtonChangeEndpoint() {
         //Default
@@ -30,5 +32,19 @@ public class MainActivityTest extends AbstractFunctionalTest {
         clickOnView(R.id.activity_main_radio_polionex);
         mSolo.sleep(500);
         assertEquals(1, SharedPreferencesUtilities.getIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+    }
+
+    /**
+     * Test the {@link ActivityMainBinding#activityMainCheckbox}
+     */
+    public void testCheckboxPersistentNotification() {
+        //TODO
+    }
+
+    /**
+     * Test the {@link ActivityMainBinding#activityMainEdittext}
+     */
+    public void testInputBuyingPrice() {
+        //TODO
     }
 }

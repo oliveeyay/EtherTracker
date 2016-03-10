@@ -1,6 +1,7 @@
-package com.og.finance.ether.unit;
+package com.og.finance.ether.unit.enums;
 
 import com.og.finance.ether.network.enums.Endpoint;
+import com.og.finance.ether.unit.AbstractUnitTest;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
 /**
