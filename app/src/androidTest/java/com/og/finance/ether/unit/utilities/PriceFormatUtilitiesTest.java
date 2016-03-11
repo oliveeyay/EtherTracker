@@ -80,7 +80,7 @@ public class PriceFormatUtilitiesTest extends AbstractUnitTest {
         assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
         krakenEtherApi = new KrakenEtherApi(new KrakenResultApi(new KrakenPriceApi(null, 8.0f)));
         assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
-        ArrayList<Float> arrayList = new ArrayList();
+        ArrayList<Float> arrayList = new ArrayList<>();
         krakenEtherApi = new KrakenEtherApi(new KrakenResultApi(new KrakenPriceApi(arrayList, null)));
         assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
         arrayList.add(11.0f);
@@ -90,4 +90,35 @@ public class PriceFormatUtilitiesTest extends AbstractUnitTest {
         result = PriceFormatUtilities.getPriceFormatted(krakenEtherApi);
         assertTrue(result.contains("11") && result.contains("37.5") && result.contains("10"));
     }
+
+    /**
+     * Test {@link com.og.finance.ether.utilities.PriceFormatUtilities#getPriceFromBuying(AbstractEtherApi)}
+     */
+    public void testGetPriceFromBuying() {
+        //No buying price and api
+        assertEquals("", PriceFormatUtilities.getPriceFromBuying(null));
+
+        //Api but no buying
+        PolionexEtherApi polionexEtherApi = new PolionexEtherApi(new PolionexPriceApi(11.0f, 0.11f));
+        assertEquals("", PriceFormatUtilities.getPriceFromBuying(polionexEtherApi));
+
+        //Buying but no api
+        SharedPreferencesUtilities.storeFloatForKey(getContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE, 10.0f);
+        assertEquals("", PriceFormatUtilities.getPriceFromBuying(null));
+
+        //Both there
+        assertTrue(PriceFormatUtilities.getPriceFromBuying(polionexEtherApi).contains("10"));
+    }
+
+    /**
+     * Test {@link com.og.finance.ether.utilities.PriceFormatUtilities#formatTwoDecimals(Float)}
+     */
+    public void testFormatTwoDecimals() {
+        //Test null
+        assertEquals("", PriceFormatUtilities.formatTwoDecimals(null));
+
+        //Test format
+        assertEquals("10.02", PriceFormatUtilities.formatTwoDecimals(10.0222222f));
+    }
+
 }

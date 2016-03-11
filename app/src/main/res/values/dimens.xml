@@ -3,6 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- HomeFragment -->
+    <dimen name="fragment_home_text_size">18sp</dimen>
+    <dimen name="fragment_home_text_size_big">30sp</dimen>
+    <dimen name="fragment_home_text_size_huge">40sp</dimen>
+
     <!-- View NavigationDrawer -->
     <dimen name="view_navigation_drawer_icon_size">25dp</dimen>
     <dimen name="view_navigation_drawer_margin_small">3dp</dimen>

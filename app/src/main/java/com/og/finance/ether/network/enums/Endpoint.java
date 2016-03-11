@@ -27,18 +27,20 @@ import com.og.finance.ether.utilities.SharedPreferencesUtilities;
  */
 public enum Endpoint {
 
-    POLIONEX(1, "https://poloniex.com/", PolionexEtherApi.class),
-    COIN_MARKET_CAP(2, "http://coinmarketcap-nexuist.rhcloud.com/", CoinMarketEtherApi.class),
-    KRAKEN(3, "https://api.kraken.com/0/public/", KrakenEtherApi.class) ;
+    POLIONEX(1, "https://poloniex.com/", PolionexEtherApi.class, "Polionex"),
+    COIN_MARKET_CAP(2, "http://coinmarketcap-nexuist.rhcloud.com/", CoinMarketEtherApi.class, "CoinMarketApi"),
+    KRAKEN(3, "https://api.kraken.com/0/public/", KrakenEtherApi.class, "Kraken") ;
 
     private int mId;
     private String mUrl;
     private Class<? extends Api> mEtherApiClass;
+    private String mEndpointName;
 
-    Endpoint(int id, String url, Class<? extends Api> etherApiClass) {
+    Endpoint(int id, String url, Class<? extends Api> etherApiClass, String endpointName) {
         mId = id;
         mUrl = url;
         mEtherApiClass = etherApiClass;
+        mEndpointName = endpointName;
     }
 
     /**
@@ -71,5 +73,9 @@ public enum Endpoint {
 
     public Class<? extends Api> getEtherApiClass() {
         return mEtherApiClass;
+    }
+
+    public String getEndpointName() {
+        return mEndpointName;
     }
 }

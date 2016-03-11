@@ -15,10 +15,12 @@
  */
 package com.og.finance.ether.functional.fragments;
 
+import android.view.View;
 import android.widget.CheckBox;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.databinding.FragmentSettingsBinding;
+import com.og.finance.ether.fragments.HomeFragment;
 import com.og.finance.ether.fragments.SettingsFragment;
 import com.og.finance.ether.functional.AbstractFunctionalTest;
 import com.og.finance.ether.functional.services.AutoUpdateServiceTest;
@@ -89,6 +91,10 @@ public class SettingsFragmentTest extends AbstractFunctionalTest {
      * Test the {@link FragmentSettingsBinding#fragmentSettingsEdittext}
      */
     public void testInputBuyingPrice() {
+        //No buying price on the HomeFragment
+        assertEquals(View.GONE, mSolo.getView(R.id.fragment_home_separator_2).getVisibility());
+        assertEquals(View.GONE, mSolo.getView(R.id.fragment_home_change_buying_layout).getVisibility());
+
         //Go to SettingsFragment
         goToSettings();
 
@@ -101,6 +107,13 @@ public class SettingsFragmentTest extends AbstractFunctionalTest {
         clickOnView(R.id.fragment_settings_edittext_save_button);
         mSolo.sleep(500);
         assertEquals(10.0f, SharedPreferencesUtilities.getFloatForKey(getActivity(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+
+        //Check HomeFragment
+        mSolo.goBack();
+        mSolo.waitForFragmentByTag(HomeFragment.class.getName());
+        assertEquals(View.VISIBLE, mSolo.getView(R.id.fragment_home_separator_2).getVisibility());
+        assertEquals(View.VISIBLE, mSolo.getView(R.id.fragment_home_change_buying_layout).getVisibility());
+        goToSettings();
 
         //Reset buying price
         mSolo.clearEditText(0);

@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/navigation_drawer_home"
-            android:background="@color/blue_grey_700"
+            android:background="@color/blue_grey_800"
             android:orientation="horizontal" />
 
         <LinearLayout

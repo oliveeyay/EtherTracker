@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data></data>
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.og.finance.ether.utilities.PriceFormatUtilities" />
+
+        <variable
+            name="homeFragment"
+            type="com.og.finance.ether.fragments.HomeFragment" />
+
+        <variable
+            name="endpoint"
+            type="com.og.finance.ether.network.enums.Endpoint" />
+
+        <variable
+            name="etherApi"
+            type="com.og.finance.ether.network.apis.AbstractEtherApi" />
+    </data>
 
     <com.og.finance.ether.views.SlidingLinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -10,7 +27,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
@@ -22,7 +40,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/fragment_settings_image"
+                    android:id="@+id/fragment_home_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -30,22 +48,129 @@
                     android:src="@mipmap/ic_launcher" />
 
                 <com.github.omadahealth.typefaceview.TypefaceTextView
-                    android:id="@+id/fragment_home_text"
+                    android:id="@+id/fragment_home_change_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_home_image"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:text="@string/fragment_home_change_text"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/fragment_home_text_size" />
+
+                <com.github.omadahealth.typefaceview.TypefaceTextView
+                    android:id="@+id/fragment_home_change"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/fragment_settings_image"
+                    android:layout_below="@+id/fragment_home_change_text"
+                    android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text='@{etherApi.priceChange == null ? "" : @string/fragment_home_change(PriceFormatUtilities.formatTwoDecimals(etherApi.priceChange))}'
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/fragment_home_text_size_huge" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_home_separator_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/fragment_home_change"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:background="@color/blue_grey_800"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_home_price_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_home_separator_1"
+                    android:orientation="horizontal">
+
+                    <com.github.omadahealth.typefaceview.TypefaceTextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical"
+                        android:text="@string/fragment_home_price"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/fragment_home_text_size" />
+
+                    <com.github.omadahealth.typefaceview.TypefaceTextView
+                        android:id="@+id/fragment_home_price_textview"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text='@{etherApi.priceValue == null ? "" : @string/fragment_home_price_value(PriceFormatUtilities.formatTwoDecimals(etherApi.priceValue))}'
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/fragment_home_text_size_big" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_home_separator_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/fragment_home_price_layout"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:background="@color/blue_grey_800"
+                    android:orientation="horizontal"
+                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(etherApi) == "" ? View.GONE : View.VISIBLE}' />
+
+                <LinearLayout
+                    android:id="@+id/fragment_home_change_buying_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_home_separator_2"
+                    android:orientation="horizontal"
+                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(etherApi) == "" ? View.GONE : View.VISIBLE}'>
+
+                    <com.github.omadahealth.typefaceview.TypefaceTextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical"
+                        android:text="@string/fragment_home_price_change_from_buying"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/fragment_home_text_size" />
+
+                    <com.github.omadahealth.typefaceview.TypefaceTextView
+                        android:id="@+id/fragment_home_change_buying_textview"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@{PriceFormatUtilities.getPriceFromBuying(etherApi)}"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/fragment_home_text_size_big" />
+
+                </LinearLayout>
+
+                <com.github.omadahealth.typefaceview.TypefaceTextView
+                    android:id="@+id/fragment_home_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_home_change_buying_layout"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:text='@{endpoint.endpointName == null ? "" : @string/fragment_home_source(endpoint.endpointName)}'
                     android:textColor="@android:color/white" />
 
                 <com.github.omadahealth.typefaceview.TypefaceTextView
                     android:id="@+id/fragment_home_donation_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:gravity="bottom"
-                    android:onClick="onDonationClicked"
+                    android:onClick="@{homeFragment.onDonationClicked}"
                     android:text="@string/fragment_home_donation"
                     android:textColor="@android:color/white" />
             </RelativeLayout>

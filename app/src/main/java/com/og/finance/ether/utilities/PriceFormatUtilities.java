@@ -42,14 +42,42 @@ public class PriceFormatUtilities {
             return context.getResources().getString(R.string.network_error);
         }
 
-        String text = String.format(Locale.getDefault(), "%.2f", etherApi.getPriceValue()) + "$";
-        text += " || Chg: " + String.format(Locale.getDefault(), "%.2f", etherApi.getPriceChange()) + "%";
-        float buyingValue = SharedPreferencesUtilities.getFloatForKey(context, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
-        if (buyingValue != 0.0f) {
-            float percentChange = ((etherApi.getPriceValue() / buyingValue) - 1) * 100;
-            text += " || Chg from buying: " + String.format(Locale.getDefault(), "%.2f", percentChange) + "%";
+        String text = "$" + formatTwoDecimals(etherApi.getPriceValue());
+        text += " || Chg: " + formatTwoDecimals(etherApi.getPriceChange()) + "%";
+
+        String priceFromBuying = getPriceFromBuying(etherApi);
+        if (priceFromBuying != null) {
+            text += " || Chg from buying: " + priceFromBuying;
         }
 
         return text;
+    }
+
+    /**
+     * Returns the string indicating the price change since buying
+     *
+     * @param etherApi The current {@link AbstractEtherApi}
+     */
+    public static String getPriceFromBuying(AbstractEtherApi etherApi) {
+        Context context = EtherApplication.getAppContext();
+
+        float buyingValue = SharedPreferencesUtilities.getFloatForKey(context, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
+        if (buyingValue != 0.0f && etherApi != null && etherApi.getPriceValue() != null) {
+            float percentChange = ((etherApi.getPriceValue() / buyingValue) - 1) * 100;
+            return formatTwoDecimals(percentChange) + "%";
+        }
+
+        return "";
+    }
+
+    /**
+     * Format a float to two decimals (10.02)
+     */
+    public static String formatTwoDecimals(Float value) {
+        if (value != null) {
+            return String.format(Locale.getDefault(), "%.2f", value);
+        }
+
+        return "";
     }
 }

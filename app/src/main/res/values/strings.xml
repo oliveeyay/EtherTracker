@@ -4,6 +4,12 @@
 
     <!-- HomeFragment -->
     <string name="fragment_home_title">Tracker</string>
+    <string name="fragment_home_change_text">Change:</string>
+    <string name="fragment_home_change">%1$s%%</string>
+    <string name="fragment_home_source">Source: %1$s</string>
+    <string name="fragment_home_price">Price:</string>
+    <string name="fragment_home_price_value">$%1$s</string>
+    <string name="fragment_home_price_change_from_buying">From Buying:</string>
     <string name="fragment_home_donation"><u>Donate to the developer?</u></string>
     <string name="fragment_home_donation_link">https://github.com/olivierg13/EtherTracker/blob/master/DONATION.md</string>
 

@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.databinding.FragmentHomeBinding;
@@ -33,8 +31,6 @@ import com.og.finance.ether.network.NetworkManager;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.enums.Endpoint;
 import com.og.finance.ether.receivers.AutoUpdateReceiver;
-import com.og.finance.ether.utilities.PriceFormatUtilities;
-import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
 /**
  * Created by olivier.goutay on 3/11/16.
@@ -50,6 +46,8 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentHomeBinding.inflate(inflater, container, false);
+        mBinding.setHomeFragment(this);
+        mBinding.setEndpoint(Endpoint.getCurrentEndpoint());
 
         return mBinding.getRoot();
     }
@@ -76,7 +74,11 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
 
     @Override
     protected void onVisibilityChanged(boolean isVisible) {
-
+        synchronized (mViewSyncLock) {
+            if (isViewVisible()) {
+                NetworkManager.getCurrentEthValue(this);
+            }
+        }
     }
 
     @Override
@@ -84,16 +86,14 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
         super.onResume();
 
         NetworkManager.getCurrentEthValue(this);
-
         AutoUpdateReceiver.startAutoUpdate(getActivity());
     }
 
     @Override
     public void updateApi(AbstractEtherApi api) {
         if (api != null && api.getPriceValue() != null) {
-            mBinding.fragmentHomeText.setText(PriceFormatUtilities.getPriceFormatted(api));
-        } else {
-            mBinding.fragmentHomeText.setText(getString(R.string.network_error));
+            mBinding.setEtherApi(api);
+            mBinding.executePendingBindings();
         }
     }
 
@@ -105,5 +105,12 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
+    }
+
+    /**
+     * Returns the current {@link FragmentHomeBinding} for test purpose
+     */
+    public FragmentHomeBinding getBinding() {
+        return mBinding;
     }
 }
