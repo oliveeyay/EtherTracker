@@ -50,6 +50,6 @@ public class AutoUpdateService extends Service implements NetworkCallback<Abstra
 
     @Override
     public void updateApi(AbstractEtherApi api) {
-        NotificationUtilities.showNotification(getApplicationContext(), api);
+        NotificationUtilities.showNotification(api);
     }
 }

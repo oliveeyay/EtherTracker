@@ -55,6 +55,15 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback<A
         AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
     }
 
+    @Override
+    public void updateApi(AbstractEtherApi api) {
+        if (api != null && api.getPriceValue() != null) {
+            mBinding.activityMainText.setText(PriceFormatUtilities.getPriceFormatted(api));
+        } else {
+            mBinding.activityMainText.setText(getString(R.string.network_error));
+        }
+    }
+
     /**
      * Init all the buttons / text on the view
      */
@@ -65,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback<A
         mBinding.activityMainEdittext.setText(value);
 
         //Init the persistent notification checkbox
-        mBinding.activityMainCheckbox.setChecked(SharedPreferencesUtilities.getBooleanForKey(this, SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
-        mBinding.activityMainCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mBinding.activityMainNotificationCheckbox.setChecked(SharedPreferencesUtilities.getBooleanForKey(this, SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
+        mBinding.activityMainNotificationCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferencesUtilities.storeBooleanForKey(MainActivity.this, SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE, isChecked);
@@ -141,12 +150,5 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback<A
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
-    }
-
-    @Override
-    public void updateApi(AbstractEtherApi api) {
-        if (api != null && api.getPriceValue() != null) {
-            mBinding.activityMainText.setText(PriceFormatUtilities.getPriceFormatted(api));
-        }
     }
 }

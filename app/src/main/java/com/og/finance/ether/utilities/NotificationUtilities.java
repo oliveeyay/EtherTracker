@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.activities.MainActivity;
+import com.og.finance.ether.application.EtherApplication;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 
@@ -36,38 +37,35 @@ public class NotificationUtilities {
     /**
      * Show a notification containing the {@link CoinMarketEtherApi infos}
      *
-     * @param context  The current context of the app
      * @param etherApi The latest {@link CoinMarketEtherApi}
      */
-    public static void showNotification(Context context, AbstractEtherApi etherApi) {
-        if (etherApi != null && etherApi.getPriceValue() != null) {
-            Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    public static void showNotification(AbstractEtherApi etherApi) {
+        Context context = EtherApplication.getAppContext();
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            NotificationCompat.Builder b = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder b = new NotificationCompat.Builder(context);
 
-            b.setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Ether Tracker")
-                    .setOngoing(true)
-                    .setContentText(PriceFormatUtilities.getPriceFormatted(etherApi))
-                    .setDefaults(Notification.DEFAULT_LIGHTS)
-                    .setSound(Uri.EMPTY)
-                    .setContentIntent(contentIntent);
+        b.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Ether Tracker")
+                .setOngoing(true)
+                .setContentText(PriceFormatUtilities.getPriceFormatted(etherApi))
+                .setDefaults(Notification.DEFAULT_LIGHTS)
+                .setSound(Uri.EMPTY)
+                .setContentIntent(contentIntent);
 
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(1, b.build());
-        }
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, b.build());
     }
 
     /**
      * Cancel the current {@link Notification}
-     * @param context The current context of the app
      */
-    public static void cancelNotification(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    public static void cancelNotification() {
+        NotificationManager notificationManager = (NotificationManager) EtherApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
     }
 }

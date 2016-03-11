@@ -130,18 +130,18 @@ public final class SharedPreferencesUtilities {
     }
 
     /**
-     * Get a int from the private {@link SharedPreferences} of the app
+     * Get a float from the private {@link SharedPreferences} of the app
      *
      * @param context The current context of the app
      * @param key     The key we want to request
-     * @return The int retrieved from the given key, or 1 by default
+     * @return The float retrieved from the given key, or true by default
      */
-    public static int getIntForKey(Context context, String key) {
+    public static float getFloatForKey(Context context, String key) {
         if (context == null) {
-            return 1;
+            return 0.0f;
         }
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return sharedPref.getInt(key, 1);
+        return sharedPref.getFloat(key, 0.0f);
     }
 
     /**
@@ -162,18 +162,18 @@ public final class SharedPreferencesUtilities {
     }
 
     /**
-     * Get a float from the private {@link SharedPreferences} of the app
+     * Get a int from the private {@link SharedPreferences} of the app
      *
      * @param context The current context of the app
      * @param key     The key we want to request
-     * @return The float retrieved from the given key, or true by default
+     * @return The int retrieved from the given key, or 1 by default
      */
-    public static float getFloatForKey(Context context, String key) {
+    public static int getIntForKey(Context context, String key) {
         if (context == null) {
-            return 0.0f;
+            return 1;
         }
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return sharedPref.getFloat(key, 0.0f);
+        return sharedPref.getInt(key, 1);
     }
 
     /**

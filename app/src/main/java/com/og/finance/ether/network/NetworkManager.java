@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package com.og.finance.ether.network;
 
+import com.crashlytics.android.Crashlytics;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 import com.og.finance.ether.network.apis.KrakenEtherApi;
@@ -81,7 +82,10 @@ public class NetworkManager<T extends AbstractEtherApi> {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-                //TODO error handling
+                //Logging also with crashlytics to have a volume of failure
+                Crashlytics.logException(t);
+
+                callback.updateApi(null);
             }
         });
     }
