@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data></data>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- The main content view -->
+        <RelativeLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- We use a Toolbar so that our drawer can be displayed
+                 in front of the action bar -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/content_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/white" />
+
+            <FrameLayout
+                android:id="@+id/content_frame_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/content_toolbar"
+                android:orientation="vertical" />
+
+            <ImageView
+                android:id="@+id/action_bar_custom_layout_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_below="@+id/content_toolbar"
+                android:background="@drawable/shadow_down_dark" />
+
+        </RelativeLayout>
+
+        <!-- The navigation drawer -->
+        <com.og.finance.ether.views.NavigationDrawerView
+            android:id="@+id/navigation_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@android:color/white"
+            android:clickable="true" />
+    </android.support.v4.widget.DrawerLayout>
+</layout>

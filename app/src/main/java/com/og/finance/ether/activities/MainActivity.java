@@ -15,140 +15,99 @@
  */
 package com.og.finance.ether.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Toast;
+import android.support.v4.view.GravityCompat;
 
-import com.og.finance.ether.R;
-import com.og.finance.ether.databinding.ActivityMainBinding;
-import com.og.finance.ether.network.NetworkCallback;
-import com.og.finance.ether.network.NetworkManager;
-import com.og.finance.ether.network.apis.AbstractEtherApi;
-import com.og.finance.ether.network.enums.Endpoint;
-import com.og.finance.ether.receivers.AutoUpdateReceiver;
-import com.og.finance.ether.utilities.PriceFormatUtilities;
-import com.og.finance.ether.utilities.SharedPreferencesUtilities;
+import com.og.finance.ether.fragments.AbstractFragment;
+import com.og.finance.ether.fragments.HomeFragment;
+import com.og.finance.ether.fragments.SettingsFragment;
 
-public class MainActivity extends AppCompatActivity implements NetworkCallback<AbstractEtherApi> {
+public class MainActivity extends AbstractDrawerActivity {
 
-    private ActivityMainBinding mBinding;
+    /**
+     * Static fields for the fragments that this Activity manages
+     */
+    public static class FRAGS {
+        public static final int FRAGMENT_HOME = 0;
+        public static final int FRAGMENT_SETTINGS = 1;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        initLayout(savedInstanceState);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //Set the current fragment to whatever the intent says
+        setIntent(intent);
+
+        clearBackStack(false);
+        initLayout(null);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        NetworkManager.getCurrentEthValue(this);
-
-        initButtons();
-
-        AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
+        if (mCurrentFragment == null) {
+            mCurrentFragment = getBlankFrag(getDefaultFrag());
+        }
+        showFragment(mCurrentFragment, true, false);
     }
 
     @Override
-    public void updateApi(AbstractEtherApi api) {
-        if (api != null && api.getPriceValue() != null) {
-            mBinding.activityMainText.setText(PriceFormatUtilities.getPriceFormatted(api));
-        } else {
-            mBinding.activityMainText.setText(getString(R.string.network_error));
+    public void onBackPressed() {
+        //if Drawer is closed
+        if (!mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            FragmentManager fm = getFragmentManager();
+            Fragment visibleFragment = getVisibleFrag();
+            mCurrentFragment = visibleFragment == null ? mCurrentFragment : visibleFragment;
         }
+        mCurrentFragment = getCurrentFrag();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void initLayout(Bundle savedInstanceState) {
+        int frag = getIntent().getIntExtra(AbstractFragmentActivity.FRAGS.FRAGMENT_KEY, getDefaultFrag());
+
+        //Get the fragment
+        mCurrentFragment = getBlankFrag(frag);
+        //If we passed intent extras, add them
+        mCurrentFragment.setArguments(getIntent().getExtras());
     }
 
     /**
-     * Init all the buttons / text on the view
+     * Method for generating a blank fragment
+     *
+     * @param fragCode The {@link MainActivity.FRAGS} key for the desired fragment
+     * @return An initialized fragment
      */
-    private void initButtons() {
-        //Init buying value edittext and button
-        float valueF = SharedPreferencesUtilities.getFloatForKey(this, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
-        String value = valueF == 0.0f ? "" : String.valueOf(valueF);
-        mBinding.activityMainEdittext.setText(value);
-
-        //Init the persistent notification checkbox
-        mBinding.activityMainNotificationCheckbox.setChecked(SharedPreferencesUtilities.getBooleanForKey(this, SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
-        mBinding.activityMainNotificationCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferencesUtilities.storeBooleanForKey(MainActivity.this, SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE, isChecked);
-                AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
-            }
-        });
-
-        //Init the selected endpoint
-        Endpoint endpoint = Endpoint.getCurrentEndpoint();
-        switch (endpoint) {
-            case KRAKEN:
-                mBinding.activityMainRadioKraken.setChecked(true);
+    private AbstractFragment getBlankFrag(int fragCode) {
+        AbstractFragment frag = null;
+        switch (fragCode) {
+            case FRAGS.FRAGMENT_HOME:
+                frag = new HomeFragment();
                 break;
-            case COIN_MARKET_CAP:
-                mBinding.activityMainRadioCoinmarketcap.setChecked(true);
-                break;
-            case POLIONEX:
-            default:
-                mBinding.activityMainRadioPolionex.setChecked(true);
+            case FRAGS.FRAGMENT_SETTINGS:
+                frag = new SettingsFragment();
                 break;
         }
-    }
 
-
-    /**
-     * Click on {@link ActivityMainBinding#activityMainRadioPolionex}
-     */
-    public void onSaveButtonClicked(View view) {
-        if (mBinding.activityMainEdittext.getText().toString().isEmpty()) {
-            SharedPreferencesUtilities.deleteKey(MainActivity.this, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
-        } else {
-            try {
-                SharedPreferencesUtilities.storeFloatForKey(MainActivity.this, SharedPreferencesUtilities.SHARED_BUYING_VALUE, Float.parseFloat(mBinding.activityMainEdittext.getText().toString()));
-            } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "Wrong number entered", Toast.LENGTH_LONG).show();
-            }
-        }
+        return frag;
     }
 
     /**
-     * Click on {@link ActivityMainBinding#activityMainRadioPolionex}
+     * Returns the default fragment for the {@link MainActivity}
      */
-    public void onRadioButtonClickedPolionex(View view) {
-        SharedPreferencesUtilities.storeIntForKey(this, SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.POLIONEX.getId());
-        NetworkManager.getCurrentEthValue(this);
-        AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
+    public int getDefaultFrag() {
+        return FRAGS.FRAGMENT_HOME;
     }
 
-    /**
-     * Click on {@link ActivityMainBinding#activityMainRadioCoinmarketcap}
-     */
-    public void onRadioButtonClickedCoinMarketCap(View view) {
-        SharedPreferencesUtilities.storeIntForKey(this, SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.COIN_MARKET_CAP.getId());
-        NetworkManager.getCurrentEthValue(this);
-        AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
-    }
-
-    /**
-     * Click on {@link ActivityMainBinding#activityMainRadioKraken}
-     */
-    public void onRadioButtonClickedKraken(View view) {
-        SharedPreferencesUtilities.storeIntForKey(this, SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.KRAKEN.getId());
-        NetworkManager.getCurrentEthValue(this);
-        AutoUpdateReceiver.startAutoUpdate(MainActivity.this);
-    }
-
-    /**
-     * Click on {@link ActivityMainBinding#activityMainRadioKraken}
-     */
-    public void onDonationClicked(View view) {
-        String url = getResources().getString(R.string.activity_main_donation_link);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        startActivity(intent);
-    }
 }

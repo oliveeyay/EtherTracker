@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="drawerLayout"
+            type="com.og.finance.ether.views.NavigationDrawerView" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_grey_900"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/navigation_drawer_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{drawerLayout.onClick}"
+            android:orientation="horizontal"
+            android:padding="@dimen/activity_vertical_margin">
+
+            <ImageView
+                android:layout_width="@dimen/view_navigation_drawer_icon_size"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:src="@mipmap/ic_progress_icon" />
+
+            <com.github.omadahealth.typefaceview.TypefaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/fragment_home_title"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/toolbar_title_size"
+                app:tv_typeface="roboto_regular" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navigation_drawer_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/navigation_drawer_home"
+            android:background="@color/blue_grey_700"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/navigation_drawer_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/navigation_drawer_separator"
+            android:onClick="@{drawerLayout.onClick}"
+            android:orientation="horizontal"
+            android:padding="@dimen/activity_vertical_margin">
+
+            <ImageView
+                android:layout_width="@dimen/view_navigation_drawer_icon_size"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:src="@mipmap/ic_settings_icon" />
+
+            <com.github.omadahealth.typefaceview.TypefaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/fragment_settings_title"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/toolbar_title_size"
+                app:tv_typeface="roboto_regular" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

@@ -19,6 +19,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.og.finance.ether.BuildConfig;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -37,7 +38,9 @@ public class EtherApplication extends Application {
         super.onCreate();
         mAppContext = getApplicationContext();
 
-        Fabric.with(this, new Crashlytics());
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
     }
 
     public static Context getAppContext() {

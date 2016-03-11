@@ -15,12 +15,17 @@
  */
 package com.og.finance.ether.functional;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
 import com.og.finance.ether.activities.MainActivity;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 import com.robotium.solo.Solo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -81,5 +86,46 @@ public class AbstractFunctionalTest extends ActivityInstrumentationTestCase2<Mai
      */
     protected void clickOnView(int viewId) {
         mSolo.clickOnView(mSolo.getView(viewId));
+    }
+
+    /**
+     * Click on the {@link android.support.v7.widget.Toolbar} navigation icon.
+     */
+    protected void clickOnToolbarNavigationIcon() {
+        mSolo.clickOnImageButton(0);
+        mSolo.sleep(1000);
+    }
+
+    /**
+     * Method searches through the fragments in the {@link android.app.FragmentManager}
+     * for the fragment that is currently visible and returns that fragment
+     *
+     * @return The fragment that is currently visible
+     */
+    protected Fragment getCurrentFrag() {
+        List<Fragment> fragments = getListFrag();
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null && fragment.isVisible()) {
+                    return fragment;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the list of {@link android.support.v4.app.Fragment} currently in the backstack of the current {@link android.app.Activity}
+     */
+    protected List<Fragment> getListFrag() {
+        List<Fragment> fragments = new ArrayList<>();
+        FragmentManager fragmentManager = mSolo.getCurrentActivity().getFragmentManager();
+
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            String tag = fragmentManager.getBackStackEntryAt(i).getName();
+            fragments.add(fragmentManager.findFragmentByTag(tag));
+        }
+
+        return fragments;
     }
 }

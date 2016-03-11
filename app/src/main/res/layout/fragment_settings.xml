@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="settingsFragment"
+            type="com.og.finance.ether.fragments.SettingsFragment" />
+    </data>
+
+    <com.og.finance.ether.views.SlidingLinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_grey_900">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context=".activities.MainActivity">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/fragment_settings_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:src="@mipmap/ic_launcher" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_settings_edittext_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_settings_image"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/fragment_settings_edittext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/fragment_home_buying_value"
+                        android:inputType="numberDecimal"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/fragment_settings_edittext_save_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{settingsFragment.onSaveButtonClicked}"
+                        android:text="@string/fragment_settings_save" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/fragment_settings_notification_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_settings_edittext_layout"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="@string/fragment_settings_persistent_notification"
+                    android:textColor="@android:color/white" />
+
+                <com.github.omadahealth.typefaceview.TypefaceTextView
+                    android:id="@+id/fragment_settings_radio_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_settings_notification_checkbox"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="@string/fragment_settings_source"
+                    android:textColor="@android:color/white" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_settings_radio_text"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/fragment_settings_radio_polionex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:onClick="@{settingsFragment.onRadioButtonClicked}"
+                        android:text="@string/fragment_settings_polionex"
+                        android:textColor="@android:color/white" />
+
+                    <RadioButton
+                        android:id="@+id/fragment_settings_radio_coinmarketcap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{settingsFragment.onRadioButtonClicked}"
+                        android:text="@string/fragment_settings_coinmarketcap"
+                        android:textColor="@android:color/white" />
+
+                    <RadioButton
+                        android:id="@+id/fragment_settings_radio_kraken"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{settingsFragment.onRadioButtonClicked}"
+                        android:text="@string/fragment_settings_kraken"
+                        android:textColor="@android:color/white" />
+                </RadioGroup>
+
+            </RelativeLayout>
+        </ScrollView>
+    </com.og.finance.ether.views.SlidingLinearLayout>
+</layout>
