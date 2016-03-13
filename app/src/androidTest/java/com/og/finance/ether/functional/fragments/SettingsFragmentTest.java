@@ -17,6 +17,7 @@ package com.og.finance.ether.functional.fragments;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.databinding.FragmentSettingsBinding;
@@ -24,6 +25,7 @@ import com.og.finance.ether.fragments.HomeFragment;
 import com.og.finance.ether.fragments.SettingsFragment;
 import com.og.finance.ether.functional.AbstractFunctionalTest;
 import com.og.finance.ether.functional.services.AutoUpdateServiceTest;
+import com.og.finance.ether.network.enums.Endpoint;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
 /**
@@ -47,6 +49,13 @@ public class SettingsFragmentTest extends AbstractFunctionalTest {
         mSolo.sleep(500);
         assertEquals(2, SharedPreferencesUtilities.getIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
 
+        //Go back to home and test source
+        mSolo.goBack();
+        mSolo.waitForFragmentByTag(HomeFragment.class.getName());
+        mSolo.sleep(2000);
+        assertTrue(((TextView) mSolo.getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.COIN_MARKET_CAP.getEndpointName()));
+        goToSettings();
+
         //Click on Kraken
         clickOnView(R.id.fragment_settings_radio_kraken);
         mSolo.sleep(500);
@@ -56,6 +65,11 @@ public class SettingsFragmentTest extends AbstractFunctionalTest {
         clickOnView(R.id.fragment_settings_radio_polionex);
         mSolo.sleep(500);
         assertEquals(1, SharedPreferencesUtilities.getIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+
+        //Go back to home and test source
+        mSolo.goBack();
+        mSolo.waitForFragmentByTag(HomeFragment.class.getName());
+        assertTrue(((TextView) mSolo.getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.POLIONEX.getEndpointName()));
     }
 
     /**

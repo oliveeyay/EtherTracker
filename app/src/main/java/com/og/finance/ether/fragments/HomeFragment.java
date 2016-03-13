@@ -93,6 +93,7 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
     public void updateApi(AbstractEtherApi api) {
         if (api != null && api.getPriceValue() != null) {
             mBinding.setEtherApi(api);
+            mBinding.setEndpoint(Endpoint.getCurrentEndpoint());
             mBinding.executePendingBindings();
         }
     }
