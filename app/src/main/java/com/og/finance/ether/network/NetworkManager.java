@@ -27,9 +27,9 @@ import com.og.finance.ether.network.services.PolionexEtherService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by olivier.goutay on 2/29/16.
