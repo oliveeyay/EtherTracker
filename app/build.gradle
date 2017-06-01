@@ -8,10 +8,13 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
 }
 
 
@@ -57,7 +60,16 @@ dependencies {
         transitive = true;
     }
 
+    //Databinding for Kotlin
+    kapt "com.android.databinding:compiler:2.3.2"
+    //TODO remove kotlin.incremental=false in local.properties when Data binding and Kotlin work together
+
     //Testing
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+
+kapt {
+    generateStubs = true
 }

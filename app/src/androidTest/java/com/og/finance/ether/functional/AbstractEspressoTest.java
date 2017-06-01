@@ -74,7 +74,7 @@ public class AbstractEspressoTest {
      * Click on the {@link android.support.v7.widget.Toolbar} navigation icon.
      */
     protected void clickOnToolbarNavigationIcon() {
-        onView(withContentDescription(AbstractDrawerActivity.NAVIGATION_ICON_CONTENT_DESCRIPTION)).perform(click());
+        onView(withContentDescription(AbstractDrawerActivity.Companion.getNAVIGATION_ICON_CONTENT_DESCRIPTION())).perform(click());
         getInstrumentation().waitForIdleSync();
     }
 
