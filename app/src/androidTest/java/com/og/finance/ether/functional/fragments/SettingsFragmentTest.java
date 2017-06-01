@@ -15,126 +15,140 @@
  */
 package com.og.finance.ether.functional.fragments;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.filters.LargeTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.og.finance.ether.R;
+import com.og.finance.ether.activities.MainActivity;
 import com.og.finance.ether.databinding.FragmentSettingsBinding;
-import com.og.finance.ether.fragments.HomeFragment;
 import com.og.finance.ether.fragments.SettingsFragment;
-import com.og.finance.ether.functional.AbstractFunctionalTest;
-import com.og.finance.ether.functional.services.AutoUpdateServiceTest;
+import com.og.finance.ether.functional.AbstractEspressoTest;
+import com.og.finance.ether.functional.Condition;
 import com.og.finance.ether.network.enums.Endpoint;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by olivier.goutay on 3/9/16.
  * Test of {@link com.og.finance.ether.activities.MainActivity}
  */
-public class SettingsFragmentTest extends AbstractFunctionalTest {
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class SettingsFragmentTest extends AbstractEspressoTest {
+
+    @Rule
+    public IntentsTestRule<MainActivity> mActivityRule = new IntentsTestRule<>(MainActivity.class);
 
     /**
      * Test the {@link FragmentSettingsBinding#fragmentSettingsRadioPolionex} and others
      */
-    public void testRadioButtonChangeEndpoint() {
-        //Default
-        assertEquals(1, SharedPreferencesUtilities.getIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
-
+    @Test
+    public void testRadioButtonChangeEndpoint() throws InterruptedException {
         //Go to SettingsFragment
         goToSettings();
 
         //Click on coinmarketcap
         clickOnView(R.id.fragment_settings_radio_coinmarketcap);
-        mSolo.sleep(500);
-        assertEquals(2, SharedPreferencesUtilities.getIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+        assertEquals(2, SharedPreferencesUtilities.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
 
         //Go back to home and test source
-        mSolo.goBack();
-        mSolo.waitForFragmentByTag(HomeFragment.class.getName());
-        mSolo.sleep(2000);
-        assertTrue(((TextView) mSolo.getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.COIN_MARKET_CAP.getEndpointName()));
+        Espresso.pressBack();
+        waitForCondition(new Condition() {
+            @Override public boolean isSatisfied() {
+                return ((TextView) getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.COIN_MARKET_CAP.getEndpointName());
+            }
+        }, 5000);
+        assertTrue(((TextView) getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.COIN_MARKET_CAP.getEndpointName()));
         goToSettings();
 
         //Click on Kraken
         clickOnView(R.id.fragment_settings_radio_kraken);
-        mSolo.sleep(500);
-        assertEquals(3, SharedPreferencesUtilities.getIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+        assertEquals(3, SharedPreferencesUtilities.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
 
         //Click on Polionex again
         clickOnView(R.id.fragment_settings_radio_polionex);
-        mSolo.sleep(500);
-        assertEquals(1, SharedPreferencesUtilities.getIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+        assertEquals(1, SharedPreferencesUtilities.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
 
         //Go back to home and test source
-        mSolo.goBack();
-        mSolo.waitForFragmentByTag(HomeFragment.class.getName());
-        assertTrue(((TextView) mSolo.getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.POLONIEX.getEndpointName()));
+        Espresso.pressBack();
+        waitForCondition(new Condition() {
+            @Override public boolean isSatisfied() {
+                return ((TextView) getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.POLONIEX.getEndpointName());
+            }
+        }, 5000);
+        assertTrue(((TextView) getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.POLONIEX.getEndpointName()));
     }
 
     /**
      * Test the {@link FragmentSettingsBinding#fragmentSettingsNotificationCheckbox}
      * Some asserts only available on marshmallow
      */
+    @Test
     public void testCheckboxPersistentNotification() {
         //Go to SettingsFragment
         goToSettings();
 
         //Test notification enabled by default
-        CheckBox checkBox = (CheckBox) mSolo.getView(R.id.fragment_settings_notification_checkbox);
+        final CheckBox checkBox = (CheckBox) getView(R.id.fragment_settings_notification_checkbox);
         assertTrue(checkBox.isChecked());
-        assertTrue(SharedPreferencesUtilities.getBooleanForKey(getActivity(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
-        AutoUpdateServiceTest.assertNotificationLength(getActivity(), mSolo, 1);
+        assertTrue(SharedPreferencesUtilities.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
 
         //Test disable notification
         clickOnView(R.id.fragment_settings_notification_checkbox);
-        mSolo.sleep(500);
         assertFalse(checkBox.isChecked());
-        assertFalse(SharedPreferencesUtilities.getBooleanForKey(getActivity(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
-        AutoUpdateServiceTest.assertNotificationLength(getActivity(), mSolo, 0);
+        assertFalse(SharedPreferencesUtilities.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
 
         //Test re-enable notification
         clickOnView(R.id.fragment_settings_notification_checkbox);
-        mSolo.sleep(500);
         assertTrue(checkBox.isChecked());
-        assertTrue(SharedPreferencesUtilities.getBooleanForKey(getActivity(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
-        AutoUpdateServiceTest.assertNotificationLength(getActivity(), mSolo, 1);
+        assertTrue(SharedPreferencesUtilities.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
     }
 
     /**
      * Test the {@link FragmentSettingsBinding#fragmentSettingsEdittext}
      */
+    @Test
     public void testInputBuyingPrice() {
         //No buying price on the HomeFragment
-        assertEquals(View.GONE, mSolo.getView(R.id.fragment_home_separator_2).getVisibility());
-        assertEquals(View.GONE, mSolo.getView(R.id.fragment_home_change_buying_layout).getVisibility());
+        assertEquals(View.GONE, getView(R.id.fragment_home_separator_2).getVisibility());
+        assertEquals(View.GONE, getView(R.id.fragment_home_change_buying_layout).getVisibility());
 
         //Go to SettingsFragment
         goToSettings();
 
         //No buying price
-        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getActivity(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
 
         //Buying price saved
-        mSolo.enterText(0, "10");
-        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getActivity(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        replaceText(R.id.fragment_settings_edittext, "10");
+        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
         clickOnView(R.id.fragment_settings_edittext_save_button);
-        mSolo.sleep(500);
-        assertEquals(10.0f, SharedPreferencesUtilities.getFloatForKey(getActivity(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(10.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
 
         //Check HomeFragment
-        mSolo.goBack();
-        mSolo.waitForFragmentByTag(HomeFragment.class.getName());
-        assertEquals(View.VISIBLE, mSolo.getView(R.id.fragment_home_separator_2).getVisibility());
-        assertEquals(View.VISIBLE, mSolo.getView(R.id.fragment_home_change_buying_layout).getVisibility());
+        Espresso.pressBack();
+        assertEquals(View.VISIBLE, getView(R.id.fragment_home_separator_2).getVisibility());
+        assertEquals(View.VISIBLE, getView(R.id.fragment_home_change_buying_layout).getVisibility());
         goToSettings();
 
         //Reset buying price
-        mSolo.clearEditText(0);
-        assertEquals(10.0f, SharedPreferencesUtilities.getFloatForKey(getActivity(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        replaceText(R.id.fragment_settings_edittext, "");
+        assertEquals(10.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
         clickOnView(R.id.fragment_settings_edittext_save_button);
-        mSolo.sleep(500);
-        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getActivity(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
     }
 
     /**
@@ -143,7 +157,6 @@ public class SettingsFragmentTest extends AbstractFunctionalTest {
     private void goToSettings() {
         clickOnToolbarNavigationIcon();
         clickOnView(R.id.navigation_drawer_settings);
-        mSolo.waitForFragmentByTag(SettingsFragment.class.getName());
         assertTrue(getCurrentFrag().getClass().getName().equals(SettingsFragment.class.getName()));
     }
 }

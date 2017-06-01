@@ -53,6 +53,11 @@ public abstract class AbstractDrawerActivity extends AbstractFragmentActivity {
      */
     protected AbstractFragmentDrawerActivityBinding mBinding;
 
+    /**
+     * Content description for test purpose
+     */
+    public static final String NAVIGATION_ICON_CONTENT_DESCRIPTION = "NAVIGATION_ICON_CONTENT_DESCRIPTION";
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +89,7 @@ public abstract class AbstractDrawerActivity extends AbstractFragmentActivity {
 
         mMaterialMenuDrawable = new MaterialMenuDrawable(this, ContextCompat.getColor(this, android.R.color.white), MaterialMenuDrawable.Stroke.THIN);
         mBinding.contentToolbar.setNavigationIcon(mMaterialMenuDrawable);
+        mBinding.contentToolbar.setNavigationContentDescription(NAVIGATION_ICON_CONTENT_DESCRIPTION);
         mMaterialMenuDrawable.setIconState(MaterialMenuDrawable.IconState.BURGER);
     }
 

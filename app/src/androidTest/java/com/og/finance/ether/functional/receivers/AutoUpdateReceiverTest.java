@@ -17,28 +17,45 @@ package com.og.finance.ether.functional.receivers;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.filters.LargeTest;
+import android.support.test.runner.AndroidJUnit4;
 
-import com.og.finance.ether.functional.AbstractFunctionalTest;
+import com.og.finance.ether.activities.MainActivity;
+import com.og.finance.ether.functional.AbstractEspressoTest;
+import com.og.finance.ether.functional.Condition;
 import com.og.finance.ether.receivers.AutoUpdateReceiver;
-import com.robotium.solo.Condition;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * Created by olivier.goutay on 3/9/16.
  */
-public class AutoUpdateReceiverTest extends AbstractFunctionalTest {
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class AutoUpdateReceiverTest extends AbstractEspressoTest {
+
+    @Rule
+    public IntentsTestRule<MainActivity> mActivityRule = new IntentsTestRule<>(MainActivity.class);
 
     /**
      * Test {@link com.og.finance.ether.receivers.AutoUpdateReceiver}
      * Test that the {@link PendingIntent} is well registered.
      */
+    @Test
     public void testAutoUpdateReceiver() {
         Intent intentStop = new Intent();
         intentStop.setAction(AutoUpdateReceiver.STOP_UPDATE_SERVICE);
-        mSolo.getCurrentActivity().sendBroadcast(intentStop);
+        getCurrentActivity().sendBroadcast(intentStop);
 
-        final Intent retrieverIntent = new Intent(getActivity(), AutoUpdateReceiver.class);
+        final Intent retrieverIntent = new Intent(getCurrentActivity(), AutoUpdateReceiver.class);
         retrieverIntent.setAction(AutoUpdateReceiver.STOP_UPDATE_SERVICE);
-        PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE);
         //If that doesn't work, it's maybe because you launched something else before
         assertEquals(null, pIntent);
 
@@ -46,16 +63,16 @@ public class AutoUpdateReceiverTest extends AbstractFunctionalTest {
         retrieverIntent.setAction(AutoUpdateReceiver.START_UPDATE_SERVICE);
         Intent intent = new Intent();
         intent.setAction(AutoUpdateReceiver.START_UPDATE_SERVICE);
-        mSolo.getCurrentActivity().sendBroadcast(intent);
+        getCurrentActivity().sendBroadcast(intent);
 
-        mSolo.waitForCondition(new Condition() {
+        waitForCondition(new Condition() {
             @Override
             public boolean isSatisfied() {
-                PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE);
+                PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE);
                 return pIntent != null;
             }
         }, 20000);
-        assertNotNull(PendingIntent.getBroadcast(getActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE));
+        assertNotNull(PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE));
     }
 
 }

@@ -58,6 +58,6 @@ dependencies {
     }
 
     //Testing
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
 }
