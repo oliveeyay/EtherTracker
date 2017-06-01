@@ -15,6 +15,9 @@
  */
 package com.og.finance.ether.unit.network;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.og.finance.ether.network.NetworkCallback;
 import com.og.finance.ether.network.NetworkManager;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
@@ -22,11 +25,20 @@ import com.og.finance.ether.network.enums.Endpoint;
 import com.og.finance.ether.unit.AbstractUnitTest;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.concurrent.CountDownLatch;
+
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 /**
  * Created by olivier.goutay on 3/9/16.
  */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
 public class NetworkManagerTest extends AbstractUnitTest implements NetworkCallback<AbstractEtherApi> {
 
     /**
@@ -42,6 +54,7 @@ public class NetworkManagerTest extends AbstractUnitTest implements NetworkCallb
     /**
      * Test {@link com.og.finance.ether.network.NetworkManager#getCurrentEthValue(android.content.Context, NetworkCallback)}
      */
+    @Test
     public void testGetCurrentEthValue() throws InterruptedException {
         //Test with Polionex
         mCountDownLatch = new CountDownLatch(1);

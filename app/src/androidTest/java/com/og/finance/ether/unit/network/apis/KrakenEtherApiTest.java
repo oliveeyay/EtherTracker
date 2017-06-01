@@ -15,21 +15,34 @@
  */
 package com.og.finance.ether.unit.network.apis;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.og.finance.ether.network.apis.KrakenEtherApi;
 import com.og.finance.ether.network.apis.KrakenPriceApi;
 import com.og.finance.ether.network.apis.KrakenResultApi;
 import com.og.finance.ether.unit.AbstractUnitTest;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by olivier.goutay on 3/9/16.
  */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
 public class KrakenEtherApiTest extends AbstractUnitTest {
 
     /**
      * Test for {@link KrakenEtherApi#getPriceValue()}
      */
+    @Test
     public void testGetPriceValue() {
         //Test null
         KrakenEtherApi krakenEtherApi = new KrakenEtherApi(null);
@@ -57,6 +70,7 @@ public class KrakenEtherApiTest extends AbstractUnitTest {
     /**
      * Test for {@link KrakenEtherApi#getPriceChange()}
      */
+    @Test
     public void testGetPriceChange() {
         //Test null
         KrakenEtherApi krakenEtherApi = new KrakenEtherApi(null);

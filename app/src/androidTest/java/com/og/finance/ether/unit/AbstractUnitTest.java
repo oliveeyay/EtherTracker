@@ -15,23 +15,32 @@
  */
 package com.og.finance.ether.unit;
 
-import android.test.AndroidTestCase;
+import android.content.Context;
 
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
+
+import org.junit.Before;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
 /**
  * Created by olivier.goutay on 3/9/16.
  */
-public class AbstractUnitTest extends AndroidTestCase {
+public class AbstractUnitTest {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @Before
+    public void setUp() throws Exception {
         //Just deleting the SharedPreferences, to be sure we start fresh
         SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE);
         SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID);
         SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE);
+    }
+
+    /**
+     * Returns the {@link Context} from the {@link android.app.Instrumentation}
+     */
+    protected Context getContext() {
+        return getInstrumentation().getContext();
     }
 
 }

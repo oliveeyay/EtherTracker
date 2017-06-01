@@ -15,18 +15,29 @@
  */
 package com.og.finance.ether.unit.enums;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.og.finance.ether.network.enums.Endpoint;
 import com.og.finance.ether.unit.AbstractUnitTest;
 import com.og.finance.ether.utilities.SharedPreferencesUtilities;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.Assert.assertEquals;
+
 /**
  * Created by olivier.goutay on 3/9/16.
  */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
 public class EndpointTest extends AbstractUnitTest {
 
     /**
      * Test of {@link com.og.finance.ether.network.enums.Endpoint#getFromId(int)}
      */
+    @Test
     public void testGetFromId() {
         //Not existing
         assertEquals(Endpoint.POLONIEX, Endpoint.getFromId(18000));
@@ -44,6 +55,7 @@ public class EndpointTest extends AbstractUnitTest {
     /**
      * Test of {@link Endpoint#getCurrentEndpoint(android.content.Context)}
      */
+    @Test
     public void testGetCurrentEndpoint() {
         //Default
         assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint(getContext()));

@@ -29,6 +29,8 @@ android {
         targetSdkVersion 25
         versionCode 4
         versionName "1.2.1"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -55,6 +57,7 @@ dependencies {
         transitive = true;
     }
 
-    //Using robotium for functional tests
+    //Testing
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }

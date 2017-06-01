@@ -15,18 +15,30 @@
  */
 package com.og.finance.ether.unit.network.apis;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketPriceApi;
 import com.og.finance.ether.unit.AbstractUnitTest;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+
 /**
  * Created by olivier.goutay on 3/9/16.
  */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
 public class CoinMarketEtherApiTest extends AbstractUnitTest {
 
     /**
      * Test for {@link CoinMarketEtherApi#getPriceValue()}
      */
+    @Test
     public void testGetPriceValue() {
         //Test null
         CoinMarketEtherApi coinMarketEtherApi = new CoinMarketEtherApi(null, null);
@@ -48,6 +60,7 @@ public class CoinMarketEtherApiTest extends AbstractUnitTest {
     /**
      * Test for {@link CoinMarketEtherApi#getPriceChange()}
      */
+    @Test
     public void testGetPriceChange() {
         //Test null
         CoinMarketEtherApi coinMarketEtherApi = new CoinMarketEtherApi(null, null);

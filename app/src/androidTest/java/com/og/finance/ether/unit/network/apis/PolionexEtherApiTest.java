@@ -15,18 +15,30 @@
  */
 package com.og.finance.ether.unit.network.apis;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.og.finance.ether.network.apis.PolionexEtherApi;
 import com.og.finance.ether.network.apis.PolionexPriceApi;
 import com.og.finance.ether.unit.AbstractUnitTest;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+
 /**
  * Created by olivier.goutay on 3/9/16.
  */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
 public class PolionexEtherApiTest extends AbstractUnitTest {
 
     /**
      * Test for {@link PolionexEtherApi#getPriceValue()}
      */
+    @Test
     public void testGetPriceValue() {
         //Test null
         PolionexEtherApi polionexEtherApi = new PolionexEtherApi(null);
@@ -48,6 +60,7 @@ public class PolionexEtherApiTest extends AbstractUnitTest {
     /**
      * Test for {@link PolionexEtherApi#getPriceChange()}
      */
+    @Test
     public void testGetPriceChange() {
         //Test null
         PolionexEtherApi polionexEtherApi = new PolionexEtherApi(null);

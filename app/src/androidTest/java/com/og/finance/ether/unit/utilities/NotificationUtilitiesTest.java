@@ -15,10 +15,11 @@
  */
 package com.og.finance.ether.unit.utilities;
 
-import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.PolionexEtherApi;
@@ -26,9 +27,17 @@ import com.og.finance.ether.network.apis.PolionexPriceApi;
 import com.og.finance.ether.unit.AbstractUnitTest;
 import com.og.finance.ether.utilities.NotificationUtilities;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+
 /**
  * Created by olivier.goutay on 3/9/16.
  */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
 public class NotificationUtilitiesTest extends AbstractUnitTest {
 
     /**
@@ -36,27 +45,27 @@ public class NotificationUtilitiesTest extends AbstractUnitTest {
      * and {@link NotificationUtilities#cancelNotification(Context)}
      * Only testable on Marshmallow devices.
      */
-    @TargetApi(Build.VERSION_CODES.M)
+    @Test
     public void testShowCancelNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Test no notification
-            NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getInstrumentation().getTargetContext().getSystemService(Context.NOTIFICATION_SERVICE);
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with null api
-            NotificationUtilities.showNotification(getContext(), null);
+            NotificationUtilities.showNotification(getInstrumentation().getTargetContext(), null);
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.cancelNotification(getContext());
+            NotificationUtilities.cancelNotification(getInstrumentation().getTargetContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with correct api
-            NotificationUtilities.showNotification(getContext(), new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
+            NotificationUtilities.showNotification(getInstrumentation().getTargetContext(), new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.cancelNotification(getContext());
+            NotificationUtilities.cancelNotification(getInstrumentation().getTargetContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
         }
     }
