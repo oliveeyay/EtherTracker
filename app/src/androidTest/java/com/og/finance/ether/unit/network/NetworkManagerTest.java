@@ -60,21 +60,21 @@ public class NetworkManagerTest extends AbstractUnitTest implements NetworkCallb
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.POLONIEX;
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
-        NetworkManager.getCurrentEthValue(getContext(), this);
+        NetworkManager.Companion.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
 
         //Test with Kraken
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.KRAKEN;
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
-        NetworkManager.getCurrentEthValue(getContext(), this);
+        NetworkManager.Companion.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
 
         //Test with CoinMarketCap
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.COIN_MARKET_CAP;
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
-        NetworkManager.getCurrentEthValue(getContext(), this);
+        NetworkManager.Companion.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
     }
 

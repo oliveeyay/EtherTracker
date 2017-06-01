@@ -50,29 +50,29 @@ public class AutoUpdateReceiverTest extends AbstractEspressoTest {
     @Test
     public void testAutoUpdateReceiver() {
         Intent intentStop = new Intent();
-        intentStop.setAction(AutoUpdateReceiver.STOP_UPDATE_SERVICE);
+        intentStop.setAction(AutoUpdateReceiver.Companion.getSTOP_UPDATE_SERVICE());
         getCurrentActivity().sendBroadcast(intentStop);
 
         final Intent retrieverIntent = new Intent(getCurrentActivity(), AutoUpdateReceiver.class);
-        retrieverIntent.setAction(AutoUpdateReceiver.STOP_UPDATE_SERVICE);
-        PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE);
+        retrieverIntent.setAction(AutoUpdateReceiver.Companion.getSTOP_UPDATE_SERVICE());
+        PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.Companion.getAUTO_UPDATE_SERVICE_ID(), retrieverIntent, PendingIntent.FLAG_NO_CREATE);
         //If that doesn't work, it's maybe because you launched something else before
         assertEquals(null, pIntent);
 
         //start
-        retrieverIntent.setAction(AutoUpdateReceiver.START_UPDATE_SERVICE);
+        retrieverIntent.setAction(AutoUpdateReceiver.Companion.getSTART_UPDATE_SERVICE());
         Intent intent = new Intent();
-        intent.setAction(AutoUpdateReceiver.START_UPDATE_SERVICE);
+        intent.setAction(AutoUpdateReceiver.Companion.getSTART_UPDATE_SERVICE());
         getCurrentActivity().sendBroadcast(intent);
 
         waitForCondition(new Condition() {
             @Override
             public boolean isSatisfied() {
-                PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE);
+                PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.Companion.getAUTO_UPDATE_SERVICE_ID(), retrieverIntent, PendingIntent.FLAG_NO_CREATE);
                 return pIntent != null;
             }
         }, 20000);
-        assertNotNull(PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE));
+        assertNotNull(PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.Companion.getAUTO_UPDATE_SERVICE_ID(), retrieverIntent, PendingIntent.FLAG_NO_CREATE));
     }
 
 }

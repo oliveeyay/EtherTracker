@@ -50,7 +50,7 @@ public class BootCompletedReceiverTest extends AbstractEspressoTest {
     @Test
     public void testBootCompletedReceiver() {
         final Intent retrieverIntent = new Intent(getCurrentActivity(), AutoUpdateReceiver.class);
-        retrieverIntent.setAction(AutoUpdateReceiver.START_UPDATE_SERVICE);
+        retrieverIntent.setAction(AutoUpdateReceiver.Companion.getSTART_UPDATE_SERVICE());
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_BOOT_COMPLETED);
@@ -59,11 +59,11 @@ public class BootCompletedReceiverTest extends AbstractEspressoTest {
         waitForCondition(new Condition() {
             @Override
             public boolean isSatisfied() {
-                PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE);
+                PendingIntent pIntent = PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.Companion.getAUTO_UPDATE_SERVICE_ID(), retrieverIntent, PendingIntent.FLAG_NO_CREATE);
                 return pIntent != null;
             }
         }, 20000);
-        assertNotNull(PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.AUTO_UPDATE_SERVICE_ID, retrieverIntent, PendingIntent.FLAG_NO_CREATE));
+        assertNotNull(PendingIntent.getBroadcast(getCurrentActivity(), AutoUpdateReceiver.Companion.getAUTO_UPDATE_SERVICE_ID(), retrieverIntent, PendingIntent.FLAG_NO_CREATE));
     }
 
 }

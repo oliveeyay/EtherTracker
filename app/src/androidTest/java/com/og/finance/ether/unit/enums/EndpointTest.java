@@ -40,16 +40,16 @@ public class EndpointTest extends AbstractUnitTest {
     @Test
     public void testGetFromId() {
         //Not existing
-        assertEquals(Endpoint.POLONIEX, Endpoint.getFromId(18000));
+        assertEquals(Endpoint.POLONIEX, Endpoint.Companion.getFromId(18000));
 
         //Polionex
-        assertEquals(Endpoint.POLONIEX, Endpoint.getFromId(Endpoint.POLONIEX.getId()));
+        assertEquals(Endpoint.POLONIEX, Endpoint.Companion.getFromId(Endpoint.POLONIEX.getId()));
 
         //CoinMarketCap
-        assertEquals(Endpoint.COIN_MARKET_CAP, Endpoint.getFromId(Endpoint.COIN_MARKET_CAP.getId()));
+        assertEquals(Endpoint.COIN_MARKET_CAP, Endpoint.Companion.getFromId(Endpoint.COIN_MARKET_CAP.getId()));
 
         //Kraken
-        assertEquals(Endpoint.KRAKEN, Endpoint.getFromId(Endpoint.KRAKEN.getId()));
+        assertEquals(Endpoint.KRAKEN, Endpoint.Companion.getFromId(Endpoint.KRAKEN.getId()));
     }
 
     /**
@@ -58,19 +58,19 @@ public class EndpointTest extends AbstractUnitTest {
     @Test
     public void testGetCurrentEndpoint() {
         //Default
-        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint(getContext()));
+        assertEquals(Endpoint.POLONIEX, Endpoint.Companion.getCurrentEndpoint(getContext()));
 
         //Store CoinMarketCap
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.COIN_MARKET_CAP.getId());
-        assertEquals(Endpoint.COIN_MARKET_CAP, Endpoint.getCurrentEndpoint(getContext()));
+        assertEquals(Endpoint.COIN_MARKET_CAP, Endpoint.Companion.getCurrentEndpoint(getContext()));
 
         //Store Kraken
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.KRAKEN.getId());
-        assertEquals(Endpoint.KRAKEN, Endpoint.getCurrentEndpoint(getContext()));
+        assertEquals(Endpoint.KRAKEN, Endpoint.Companion.getCurrentEndpoint(getContext()));
 
         //Store Polionex
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.POLONIEX.getId());
-        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint(getContext()));
+        assertEquals(Endpoint.POLONIEX, Endpoint.Companion.getCurrentEndpoint(getContext()));
     }
 
 }
