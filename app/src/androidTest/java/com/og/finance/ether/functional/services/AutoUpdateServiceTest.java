@@ -39,7 +39,7 @@ public class AutoUpdateServiceTest extends AbstractFunctionalTest {
     public void testOnStartCommand() {
         //Wait until notification appears and cancel it
         assertNotificationLength(getActivity(), mSolo, 1);
-        NotificationUtilities.cancelNotification();
+        NotificationUtilities.cancelNotification(getActivity());
         assertNotificationLength(getActivity(), mSolo, 0);
 
         //Launch back the service and wait for the notif

@@ -36,78 +36,78 @@ import java.util.ArrayList;
 public class PriceFormatUtilitiesTest extends AbstractUnitTest {
 
     /**
-     * Test {@link com.og.finance.ether.utilities.PriceFormatUtilities#getPriceFormatted(AbstractEtherApi)}
+     * Test {@link com.og.finance.ether.utilities.PriceFormatUtilities#getPriceFormatted(android.content.Context, AbstractEtherApi)}
      */
     public void testGetPriceFormatted() {
         String networkError = getContext().getResources().getString(R.string.network_error);
 
         //Try null AbstractEtherApi
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(null));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), null));
 
         //Try no PriceValue
         PolionexEtherApi polionexEtherApi = new PolionexEtherApi(new PolionexPriceApi(null, 20.0f));
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(polionexEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), polionexEtherApi));
 
         //Try no Change
         polionexEtherApi = new PolionexEtherApi(new PolionexPriceApi(11.0f, null));
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(polionexEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), polionexEtherApi));
 
         //Try complete
         polionexEtherApi = new PolionexEtherApi(new PolionexPriceApi(11.0f, 20.0f));
-        String result = PriceFormatUtilities.getPriceFormatted(polionexEtherApi);
+        String result = PriceFormatUtilities.getPriceFormatted(getContext(), polionexEtherApi);
         assertTrue(result.contains("11") && result.contains("20"));
 
         //Try with buying price
         SharedPreferencesUtilities.storeFloatForKey(getContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE, 10.0f);
-        result = PriceFormatUtilities.getPriceFormatted(polionexEtherApi);
+        result = PriceFormatUtilities.getPriceFormatted(getContext(), polionexEtherApi);
         assertTrue(result.contains("11") && result.contains("20") && result.contains("10"));
 
         //Try coinmarketcap api
         CoinMarketEtherApi coinMarketEtherApi = new CoinMarketEtherApi(null, null);
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(coinMarketEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), coinMarketEtherApi));
         coinMarketEtherApi = new CoinMarketEtherApi(null, 20.0f);
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(coinMarketEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), coinMarketEtherApi));
         coinMarketEtherApi = new CoinMarketEtherApi(new CoinMarketPriceApi(11.0f, 11.0f), null);
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(coinMarketEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), coinMarketEtherApi));
         coinMarketEtherApi = new CoinMarketEtherApi(new CoinMarketPriceApi(11.0f, 11.0f), 20.0f);
-        result = PriceFormatUtilities.getPriceFormatted(coinMarketEtherApi);
+        result = PriceFormatUtilities.getPriceFormatted(getContext(), coinMarketEtherApi);
         assertTrue(result.contains("11") && result.contains("20") && result.contains("10"));
 
         //Try kraken api
         KrakenEtherApi krakenEtherApi = new KrakenEtherApi(null);
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), krakenEtherApi));
         krakenEtherApi = new KrakenEtherApi(new KrakenResultApi(new KrakenPriceApi(null, null)));
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), krakenEtherApi));
         krakenEtherApi = new KrakenEtherApi(new KrakenResultApi(new KrakenPriceApi(null, 8.0f)));
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), krakenEtherApi));
         ArrayList<Float> arrayList = new ArrayList<>();
         krakenEtherApi = new KrakenEtherApi(new KrakenResultApi(new KrakenPriceApi(arrayList, null)));
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), krakenEtherApi));
         arrayList.add(11.0f);
         krakenEtherApi = new KrakenEtherApi(new KrakenResultApi(new KrakenPriceApi(arrayList, null)));
-        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(krakenEtherApi));
+        assertEquals(networkError, PriceFormatUtilities.getPriceFormatted(getContext(), krakenEtherApi));
         krakenEtherApi = new KrakenEtherApi(new KrakenResultApi(new KrakenPriceApi(arrayList, 8.0f)));
-        result = PriceFormatUtilities.getPriceFormatted(krakenEtherApi);
+        result = PriceFormatUtilities.getPriceFormatted(getContext(), krakenEtherApi);
         assertTrue(result.contains("11") && result.contains("37.5") && result.contains("10"));
     }
 
     /**
-     * Test {@link com.og.finance.ether.utilities.PriceFormatUtilities#getPriceFromBuying(AbstractEtherApi)}
+     * Test {@link com.og.finance.ether.utilities.PriceFormatUtilities#getPriceFromBuying(android.content.Context, AbstractEtherApi)}
      */
     public void testGetPriceFromBuying() {
         //No buying price and api
-        assertEquals("", PriceFormatUtilities.getPriceFromBuying(null));
+        assertEquals("", PriceFormatUtilities.getPriceFromBuying(getContext(), null));
 
         //Api but no buying
         PolionexEtherApi polionexEtherApi = new PolionexEtherApi(new PolionexPriceApi(11.0f, 0.11f));
-        assertEquals("", PriceFormatUtilities.getPriceFromBuying(polionexEtherApi));
+        assertEquals("", PriceFormatUtilities.getPriceFromBuying(getContext(), polionexEtherApi));
 
         //Buying but no api
         SharedPreferencesUtilities.storeFloatForKey(getContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE, 10.0f);
-        assertEquals("", PriceFormatUtilities.getPriceFromBuying(null));
+        assertEquals("", PriceFormatUtilities.getPriceFromBuying(getContext(), null));
 
         //Both there
-        assertTrue(PriceFormatUtilities.getPriceFromBuying(polionexEtherApi).contains("10"));
+        assertTrue(PriceFormatUtilities.getPriceFromBuying(getContext(), polionexEtherApi).contains("10"));
     }
 
     /**

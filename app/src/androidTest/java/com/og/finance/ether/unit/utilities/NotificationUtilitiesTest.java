@@ -32,8 +32,8 @@ import com.og.finance.ether.utilities.NotificationUtilities;
 public class NotificationUtilitiesTest extends AbstractUnitTest {
 
     /**
-     * Test {@link NotificationUtilities#showNotification(AbstractEtherApi)}
-     * and {@link NotificationUtilities#cancelNotification()}
+     * Test {@link NotificationUtilities#showNotification(Context, AbstractEtherApi)}
+     * and {@link NotificationUtilities#cancelNotification(Context)}
      * Only testable on Marshmallow devices.
      */
     @TargetApi(Build.VERSION_CODES.M)
@@ -44,19 +44,19 @@ public class NotificationUtilitiesTest extends AbstractUnitTest {
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with null api
-            NotificationUtilities.showNotification(null);
+            NotificationUtilities.showNotification(getContext(), null);
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.cancelNotification();
+            NotificationUtilities.cancelNotification(getContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with correct api
-            NotificationUtilities.showNotification(new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
+            NotificationUtilities.showNotification(getContext(), new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.cancelNotification();
+            NotificationUtilities.cancelNotification(getContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
         }
     }

@@ -42,23 +42,23 @@ public class EndpointTest extends AbstractUnitTest {
     }
 
     /**
-     * Test of {@link Endpoint#getCurrentEndpoint()}
+     * Test of {@link Endpoint#getCurrentEndpoint(android.content.Context)}
      */
     public void testGetCurrentEndpoint() {
         //Default
-        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint());
+        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint(getContext()));
 
         //Store CoinMarketCap
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.COIN_MARKET_CAP.getId());
-        assertEquals(Endpoint.COIN_MARKET_CAP, Endpoint.getCurrentEndpoint());
+        assertEquals(Endpoint.COIN_MARKET_CAP, Endpoint.getCurrentEndpoint(getContext()));
 
         //Store Kraken
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.KRAKEN.getId());
-        assertEquals(Endpoint.KRAKEN, Endpoint.getCurrentEndpoint());
+        assertEquals(Endpoint.KRAKEN, Endpoint.getCurrentEndpoint(getContext()));
 
         //Store Polionex
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.POLONIEX.getId());
-        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint());
+        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint(getContext()));
     }
 
 }

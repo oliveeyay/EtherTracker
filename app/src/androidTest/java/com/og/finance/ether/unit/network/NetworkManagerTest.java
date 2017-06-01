@@ -40,28 +40,28 @@ public class NetworkManagerTest extends AbstractUnitTest implements NetworkCallb
     private CountDownLatch mCountDownLatch;
 
     /**
-     * Test {@link com.og.finance.ether.network.NetworkManager#getCurrentEthValue(NetworkCallback)}
+     * Test {@link com.og.finance.ether.network.NetworkManager#getCurrentEthValue(android.content.Context, NetworkCallback)}
      */
     public void testGetCurrentEthValue() throws InterruptedException {
         //Test with Polionex
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.POLONIEX;
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
-        NetworkManager.getCurrentEthValue(this);
+        NetworkManager.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
 
         //Test with Kraken
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.KRAKEN;
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
-        NetworkManager.getCurrentEthValue(this);
+        NetworkManager.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
 
         //Test with CoinMarketCap
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.COIN_MARKET_CAP;
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
-        NetworkManager.getCurrentEthValue(this);
+        NetworkManager.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
     }
 
