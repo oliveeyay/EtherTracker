@@ -69,7 +69,7 @@ public class SettingsFragmentTest extends AbstractFunctionalTest {
         //Go back to home and test source
         mSolo.goBack();
         mSolo.waitForFragmentByTag(HomeFragment.class.getName());
-        assertTrue(((TextView) mSolo.getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.POLIONEX.getEndpointName()));
+        assertTrue(((TextView) mSolo.getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.POLONIEX.getEndpointName()));
     }
 
     /**

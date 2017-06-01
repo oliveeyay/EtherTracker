@@ -118,7 +118,7 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:background="@color/blue_grey_800"
                     android:orientation="horizontal"
-                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(etherApi) == "" ? View.GONE : View.VISIBLE}' />
+                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(context, etherApi) == "" ? View.GONE : View.VISIBLE}' />
 
                 <LinearLayout
                     android:id="@+id/fragment_home_change_buying_layout"
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/fragment_home_separator_2"
                     android:orientation="horizontal"
-                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(etherApi) == "" ? View.GONE : View.VISIBLE}'>
+                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(context, etherApi) == "" ? View.GONE : View.VISIBLE}'>
 
                     <com.github.omadahealth.typefaceview.TypefaceTextView
                         android:layout_width="0dp"
@@ -146,7 +146,7 @@
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:text="@{PriceFormatUtilities.getPriceFromBuying(etherApi)}"
+                        android:text="@{PriceFormatUtilities.getPriceFromBuying(context, etherApi)}"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/fragment_home_text_size_big" />
 

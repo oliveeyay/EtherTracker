@@ -25,7 +25,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.og.finance.ether.R;
 import com.og.finance.ether.activities.MainActivity;
-import com.og.finance.ether.application.EtherApplication;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 
@@ -39,8 +38,7 @@ public class NotificationUtilities {
      *
      * @param etherApi The latest {@link CoinMarketEtherApi}
      */
-    public static void showNotification(AbstractEtherApi etherApi) {
-        Context context = EtherApplication.getAppContext();
+    public static void showNotification(Context context, AbstractEtherApi etherApi) {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -52,7 +50,7 @@ public class NotificationUtilities {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Ether Tracker")
                 .setOngoing(true)
-                .setContentText(PriceFormatUtilities.getPriceFormatted(etherApi))
+                .setContentText(PriceFormatUtilities.getPriceFormatted(context, etherApi))
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setSound(Uri.EMPTY)
                 .setContentIntent(contentIntent);
@@ -64,8 +62,8 @@ public class NotificationUtilities {
     /**
      * Cancel the current {@link Notification}
      */
-    public static void cancelNotification() {
-        NotificationManager notificationManager = (NotificationManager) EtherApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+    public static void cancelNotification(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
     }
 }

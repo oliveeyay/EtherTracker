@@ -45,7 +45,7 @@ public class NetworkManagerTest extends AbstractUnitTest implements NetworkCallb
     public void testGetCurrentEthValue() throws InterruptedException {
         //Test with Polionex
         mCountDownLatch = new CountDownLatch(1);
-        mCurrentEndpoint = Endpoint.POLIONEX;
+        mCurrentEndpoint = Endpoint.POLONIEX;
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
         NetworkManager.getCurrentEthValue(this);
         mCountDownLatch.await();

@@ -106,7 +106,7 @@ public class SettingsFragment extends AbstractFragment {
         });
 
         //Init the selected endpoint
-        Endpoint endpoint = Endpoint.getCurrentEndpoint();
+        Endpoint endpoint = Endpoint.getCurrentEndpoint(getActivity());
         switch (endpoint) {
             case KRAKEN:
                 mBinding.fragmentSettingsRadioKraken.setChecked(true);
@@ -114,7 +114,7 @@ public class SettingsFragment extends AbstractFragment {
             case COIN_MARKET_CAP:
                 mBinding.fragmentSettingsRadioCoinmarketcap.setChecked(true);
                 break;
-            case POLIONEX:
+            case POLONIEX:
             default:
                 mBinding.fragmentSettingsRadioPolionex.setChecked(true);
                 break;
@@ -151,7 +151,7 @@ public class SettingsFragment extends AbstractFragment {
                 SharedPreferencesUtilities.storeIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.KRAKEN.getId());
                 break;
             case R.id.fragment_settings_radio_polionex:
-                SharedPreferencesUtilities.storeIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.POLIONEX.getId());
+                SharedPreferencesUtilities.storeIntForKey(getActivity(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.POLONIEX.getId());
             default:
                 break;
         }

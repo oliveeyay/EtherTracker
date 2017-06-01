@@ -29,10 +29,10 @@ public class EndpointTest extends AbstractUnitTest {
      */
     public void testGetFromId() {
         //Not existing
-        assertEquals(Endpoint.POLIONEX, Endpoint.getFromId(18000));
+        assertEquals(Endpoint.POLONIEX, Endpoint.getFromId(18000));
 
         //Polionex
-        assertEquals(Endpoint.POLIONEX, Endpoint.getFromId(Endpoint.POLIONEX.getId()));
+        assertEquals(Endpoint.POLONIEX, Endpoint.getFromId(Endpoint.POLONIEX.getId()));
 
         //CoinMarketCap
         assertEquals(Endpoint.COIN_MARKET_CAP, Endpoint.getFromId(Endpoint.COIN_MARKET_CAP.getId()));
@@ -46,7 +46,7 @@ public class EndpointTest extends AbstractUnitTest {
      */
     public void testGetCurrentEndpoint() {
         //Default
-        assertEquals(Endpoint.POLIONEX, Endpoint.getCurrentEndpoint());
+        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint());
 
         //Store CoinMarketCap
         SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.COIN_MARKET_CAP.getId());
@@ -57,8 +57,8 @@ public class EndpointTest extends AbstractUnitTest {
         assertEquals(Endpoint.KRAKEN, Endpoint.getCurrentEndpoint());
 
         //Store Polionex
-        SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.POLIONEX.getId());
-        assertEquals(Endpoint.POLIONEX, Endpoint.getCurrentEndpoint());
+        SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, Endpoint.POLONIEX.getId());
+        assertEquals(Endpoint.POLONIEX, Endpoint.getCurrentEndpoint());
     }
 
 }

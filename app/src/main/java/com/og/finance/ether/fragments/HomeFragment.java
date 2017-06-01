@@ -47,7 +47,7 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentHomeBinding.inflate(inflater, container, false);
         mBinding.setHomeFragment(this);
-        mBinding.setEndpoint(Endpoint.getCurrentEndpoint());
+        mBinding.setEndpoint(Endpoint.getCurrentEndpoint(getActivity()));
 
         return mBinding.getRoot();
     }
@@ -76,7 +76,7 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
     protected void onVisibilityChanged(boolean isVisible) {
         synchronized (mViewSyncLock) {
             if (isViewVisible()) {
-                NetworkManager.getCurrentEthValue(this);
+                NetworkManager.getCurrentEthValue(getActivity(), this);
             }
         }
     }
@@ -85,15 +85,15 @@ public class HomeFragment extends AbstractFragment implements NetworkCallback<Ab
     public void onResume() {
         super.onResume();
 
-        NetworkManager.getCurrentEthValue(this);
+        NetworkManager.getCurrentEthValue(getActivity(), this);
         AutoUpdateReceiver.startAutoUpdate(getActivity());
     }
 
     @Override
     public void updateApi(AbstractEtherApi api) {
-        if (api != null && api.getPriceValue() != null) {
+        if (api != null && api.getPriceValue() != null && getActivity() != null) {
             mBinding.setEtherApi(api);
-            mBinding.setEndpoint(Endpoint.getCurrentEndpoint());
+            mBinding.setEndpoint(Endpoint.getCurrentEndpoint(getActivity()));
             mBinding.executePendingBindings();
         }
     }

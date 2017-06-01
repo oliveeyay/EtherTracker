@@ -43,13 +43,13 @@ public class AutoUpdateService extends Service implements NetworkCallback<Abstra
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "Starting AutoUpdateService");
-        NetworkManager.getCurrentEthValue(this);
+        NetworkManager.getCurrentEthValue(this, this);
 
         return START_NOT_STICKY;
     }
 
     @Override
     public void updateApi(AbstractEtherApi api) {
-        NotificationUtilities.showNotification(api);
+        NotificationUtilities.showNotification(this, api);
     }
 }

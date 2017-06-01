@@ -172,7 +172,7 @@ public class AutoUpdateReceiver extends BroadcastReceiver {
      */
     public static void stopAutoUpdate(Context context) {
         stopAutoUpdateService(context);
-        NotificationUtilities.cancelNotification();
+        NotificationUtilities.cancelNotification(context);
     }
 
 }

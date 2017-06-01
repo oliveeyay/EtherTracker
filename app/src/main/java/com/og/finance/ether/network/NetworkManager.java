@@ -15,6 +15,8 @@
  */
 package com.og.finance.ether.network;
 
+import android.content.Context;
+
 import com.crashlytics.android.Crashlytics;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
@@ -47,8 +49,8 @@ public class NetworkManager<T extends AbstractEtherApi> {
      *
      * @param callback
      */
-    public static void getCurrentEthValue(NetworkCallback<AbstractEtherApi> callback) {
-        Endpoint endpoint = Endpoint.getCurrentEndpoint();
+    public static void getCurrentEthValue(Context context, NetworkCallback<AbstractEtherApi> callback) {
+        Endpoint endpoint = Endpoint.getCurrentEndpoint(context);
 
         Retrofit retrofit = getRetrofit(endpoint);
 
@@ -61,7 +63,7 @@ public class NetworkManager<T extends AbstractEtherApi> {
                 CoinMarketCapEtherService coinMarketCapEtherService = retrofit.create(CoinMarketCapEtherService.class);
                 new NetworkManager<CoinMarketEtherApi>().getResponse(coinMarketCapEtherService.getCurrentEthValue(), callback);
                 break;
-            case POLIONEX:
+            case POLONIEX:
             default:
                 PolionexEtherService polionexEtherService = retrofit.create(PolionexEtherService.class);
                 new NetworkManager<PolionexEtherApi>().getResponse(polionexEtherService.getCurrentEthValue(), callback);

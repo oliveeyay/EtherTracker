@@ -15,7 +15,8 @@
  */
 package com.og.finance.ether.network.enums;
 
-import com.og.finance.ether.application.EtherApplication;
+import android.content.Context;
+
 import com.og.finance.ether.network.apis.Api;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 import com.og.finance.ether.network.apis.KrakenEtherApi;
@@ -27,7 +28,7 @@ import com.og.finance.ether.utilities.SharedPreferencesUtilities;
  */
 public enum Endpoint {
 
-    POLIONEX(1, "https://poloniex.com/", PolionexEtherApi.class, "Polionex"),
+    POLONIEX(1, "https://poloniex.com/", PolionexEtherApi.class, "Poloniex"),
     COIN_MARKET_CAP(2, "http://coinmarketcap-nexuist.rhcloud.com/", CoinMarketEtherApi.class, "CoinMarketApi"),
     KRAKEN(3, "https://api.kraken.com/0/public/", KrakenEtherApi.class, "Kraken") ;
 
@@ -52,15 +53,15 @@ public enum Endpoint {
                 return endpoint;
             }
         }
-        return POLIONEX;
+        return POLONIEX;
     }
 
     /**
      * Returns the current selected {@link Endpoint}. By Default it's using {@link com.og.finance.ether.network.services.CoinMarketCapEtherService}
      * @return
      */
-    public static Endpoint getCurrentEndpoint() {
-        return Endpoint.getFromId(SharedPreferencesUtilities.getIntForKey(EtherApplication.getAppContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+    public static Endpoint getCurrentEndpoint(Context context) {
+        return Endpoint.getFromId(SharedPreferencesUtilities.getIntForKey(context, SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
     }
 
     public int getId() {

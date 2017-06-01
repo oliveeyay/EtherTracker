@@ -18,7 +18,6 @@ package com.og.finance.ether.utilities;
 import android.content.Context;
 
 import com.og.finance.ether.R;
-import com.og.finance.ether.application.EtherApplication;
 import com.og.finance.ether.network.apis.AbstractEtherApi;
 import com.og.finance.ether.network.apis.CoinMarketEtherApi;
 
@@ -36,8 +35,7 @@ public class PriceFormatUtilities {
      * @param etherApi The latest {@link CoinMarketEtherApi}
      * @return The formated string used in {@link NotificationUtilities}
      */
-    public static String getPriceFormatted(AbstractEtherApi etherApi) {
-        Context context = EtherApplication.getAppContext();
+    public static String getPriceFormatted(Context context, AbstractEtherApi etherApi) {
         if (etherApi == null || etherApi.getPriceValue() == null || etherApi.getPriceChange() == null) {
             return context.getResources().getString(R.string.network_error);
         }
@@ -45,7 +43,7 @@ public class PriceFormatUtilities {
         String text = "$" + formatTwoDecimals(etherApi.getPriceValue());
         text += " || Chg: " + formatTwoDecimals(etherApi.getPriceChange()) + "%";
 
-        String priceFromBuying = getPriceFromBuying(etherApi);
+        String priceFromBuying = getPriceFromBuying(context, etherApi);
         if (priceFromBuying != null) {
             text += " || Chg from buying: " + priceFromBuying;
         }
@@ -58,9 +56,7 @@ public class PriceFormatUtilities {
      *
      * @param etherApi The current {@link AbstractEtherApi}
      */
-    public static String getPriceFromBuying(AbstractEtherApi etherApi) {
-        Context context = EtherApplication.getAppContext();
-
+    public static String getPriceFromBuying(Context context, AbstractEtherApi etherApi) {
         float buyingValue = SharedPreferencesUtilities.getFloatForKey(context, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
         if (buyingValue != 0.0f && etherApi != null && etherApi.getPriceValue() != null) {
             float percentChange = ((etherApi.getPriceValue() / buyingValue) - 1) * 100;
