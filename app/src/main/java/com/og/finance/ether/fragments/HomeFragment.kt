@@ -33,6 +33,7 @@ import com.og.finance.ether.network.NetworkManager
 import com.og.finance.ether.network.apis.AbstractEtherApi
 import com.og.finance.ether.network.enums.Endpoint
 import com.og.finance.ether.receivers.AutoUpdateReceiver
+import com.og.finance.ether.utilities.PriceFormatUtilities
 
 /**
  * Created by olivier.goutay on 3/11/16.
@@ -51,6 +52,7 @@ class HomeFragment : AbstractFragment(), NetworkCallback<AbstractEtherApi> {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding?.homeFragment = this
+        binding?.priceFormatUtilities = PriceFormatUtilities
         binding?.endpoint = Endpoint.getCurrentEndpoint(activity)
 
         return binding?.root

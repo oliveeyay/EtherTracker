@@ -5,7 +5,9 @@
 
         <import type="android.view.View" />
 
-        <import type="com.og.finance.ether.utilities.PriceFormatUtilities" />
+        <variable
+            name="priceFormatUtilities"
+            type="com.og.finance.ether.utilities.PriceFormatUtilities" />
 
         <variable
             name="homeFragment"
@@ -66,7 +68,7 @@
                     android:layout_below="@+id/fragment_home_change_text"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text='@{etherApi.priceChange == null ? "" : @string/fragment_home_change(PriceFormatUtilities.formatTwoDecimals(etherApi.priceChange))}'
+                    android:text='@{etherApi.priceChange == null ? "" : @string/fragment_home_change(priceFormatUtilities.formatTwoDecimals(etherApi.priceChange))}'
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/fragment_home_text_size_huge" />
 
@@ -104,7 +106,7 @@
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:text='@{etherApi.priceValue == null ? "" : @string/fragment_home_price_value(PriceFormatUtilities.formatTwoDecimals(etherApi.priceValue))}'
+                        android:text='@{etherApi.priceValue == null ? "" : @string/fragment_home_price_value(priceFormatUtilities.formatTwoDecimals(etherApi.priceValue))}'
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/fragment_home_text_size_big" />
 
@@ -118,7 +120,7 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:background="@color/blue_grey_800"
                     android:orientation="horizontal"
-                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(context, etherApi) == "" ? View.GONE : View.VISIBLE}' />
+                    android:visibility='@{priceFormatUtilities.getPriceFromBuying(context, etherApi) == "" ? View.GONE : View.VISIBLE}' />
 
                 <LinearLayout
                     android:id="@+id/fragment_home_change_buying_layout"
@@ -126,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/fragment_home_separator_2"
                     android:orientation="horizontal"
-                    android:visibility='@{PriceFormatUtilities.getPriceFromBuying(context, etherApi) == "" ? View.GONE : View.VISIBLE}'>
+                    android:visibility='@{priceFormatUtilities.getPriceFromBuying(context, etherApi) == "" ? View.GONE : View.VISIBLE}'>
 
                     <com.github.omadahealth.typefaceview.TypefaceTextView
                         android:layout_width="0dp"
@@ -146,7 +148,7 @@
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:text="@{PriceFormatUtilities.getPriceFromBuying(context, etherApi)}"
+                        android:text="@{priceFormatUtilities.getPriceFromBuying(context, etherApi)}"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/fragment_home_text_size_big" />
 
