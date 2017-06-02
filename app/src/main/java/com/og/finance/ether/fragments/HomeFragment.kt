@@ -89,7 +89,7 @@ class HomeFragment : AbstractFragment(), NetworkCallback<AbstractEtherApi> {
     }
 
     override fun updateApi(api: AbstractEtherApi?) {
-        if (api != null && api.priceValue != null && activity != null) {
+        if (api != null && api.getPriceValue() != null && activity != null) {
             binding?.etherApi = api
             binding?.endpoint = Endpoint.getCurrentEndpoint(activity)
             binding?.executePendingBindings()

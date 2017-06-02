@@ -49,26 +49,26 @@ public class NotificationUtilitiesTest extends AbstractUnitTest {
     public void testShowCancelNotification() throws InterruptedException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Test no notification
-            NotificationManager notificationManager = (NotificationManager) getInstrumentation().getTargetContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationUtilities.INSTANCE.cancelNotification(getInstrumentation().getTargetContext());
+            NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationUtilities.INSTANCE.cancelNotification(getContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with null api
-            NotificationUtilities.INSTANCE.showNotification(getInstrumentation().getTargetContext(), null);
+            NotificationUtilities.INSTANCE.showNotification(getContext(), null);
             Thread.sleep(500);
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.INSTANCE.cancelNotification(getInstrumentation().getTargetContext());
+            NotificationUtilities.INSTANCE.cancelNotification(getContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with correct api
-            NotificationUtilities.INSTANCE.showNotification(getInstrumentation().getTargetContext(), new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
+            NotificationUtilities.INSTANCE.showNotification(getContext(), new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
             Thread.sleep(500);
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.INSTANCE.cancelNotification(getInstrumentation().getTargetContext());
+            NotificationUtilities.INSTANCE.cancelNotification(getContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
         }
     }

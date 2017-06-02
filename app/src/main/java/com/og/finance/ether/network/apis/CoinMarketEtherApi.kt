@@ -1,21 +1,24 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p>
+ *
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.og.finance.ether.network.apis;
+package com.og.finance.ether.network.apis
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
 /**
  * Created by olivier.goutay on 2/29/16.
@@ -51,46 +54,15 @@ import com.google.gson.annotations.SerializedName;
  * "timestamp": 1456788610.953
  * }
  */
-public class CoinMarketEtherApi extends AbstractEtherApi {
+class CoinMarketEtherApi(@SerializedName("price")
+                         var price: CoinMarketPriceApi?, @SerializedName("change")
+                         var change: Float?) : AbstractEtherApi() {
 
-    @SerializedName("price")
-    private CoinMarketPriceApi mPriceApi;
-
-    @SerializedName("change")
-    private Float mChange;
-
-    public CoinMarketEtherApi(CoinMarketPriceApi priceApi, Float change) {
-        this.mPriceApi = priceApi;
-        this.mChange = change;
+    override fun getPriceValue(): Float? {
+        return price?.usd
     }
 
-    @Override
-    public Float getPriceValue() {
-        if (mPriceApi != null) {
-            return mPriceApi.getUsd();
-        }
-
-        return null;
-    }
-
-    @Override
-    public Float getPriceChange() {
-        return mChange;
-    }
-
-    public CoinMarketPriceApi getPrice() {
-        return mPriceApi;
-    }
-
-    public void setPrice(CoinMarketPriceApi priceApi) {
-        this.mPriceApi = priceApi;
-    }
-
-    public Float getChange() {
-        return mChange;
-    }
-
-    public void setChange(Float change) {
-        this.mChange = change;
+    override fun getPriceChange(): Float? {
+        return change
     }
 }

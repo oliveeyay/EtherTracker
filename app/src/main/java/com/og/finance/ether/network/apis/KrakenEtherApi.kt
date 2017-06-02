@@ -1,23 +1,24 @@
 /**
  * Copyright 2013 Olivier Goutay (olivierg13)
- * <p/>
+ *
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ *
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.og.finance.ether.network.apis;
+package com.og.finance.ether.network.apis
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import com.google.gson.annotations.SerializedName
 
 /**
  * Created by olivier.goutay on 2/29/16.
@@ -32,32 +33,25 @@ import java.util.List;
  * "h":["11.46999","11.46999"],
  * "o":"11.18745"}}}
  */
-public class KrakenPriceApi extends Api {
+class KrakenEtherApi(@SerializedName("result")
+                     var price: KrakenResultApi?) : AbstractEtherApi() {
 
-    @SerializedName("c")
-    private List<Float> mLastPrice;
-
-    @SerializedName("o")
-    private Float mTodayPrice;
-
-    public KrakenPriceApi(List<Float> mLastPrice, Float mTodayPrice) {
-        this.mLastPrice = mLastPrice;
-        this.mTodayPrice = mTodayPrice;
+    override fun getPriceValue(): Float? {
+        if (price?.price?.lastPrice?.size?.let { it > 0 } ?: false) {
+            return price?.price?.lastPrice?.get(0)
+        }
+        return null
     }
 
-    public List<Float> getLastPrice() {
-        return mLastPrice;
-    }
-
-    public void setLastPrice(List<Float> lastPrice) {
-        this.mLastPrice = lastPrice;
-    }
-
-    public Float getTodayPrice() {
-        return mTodayPrice;
-    }
-
-    public void setTodayPrice(Float todayPrice) {
-        this.mTodayPrice = todayPrice;
+    override fun getPriceChange(): Float? {
+        if (price?.price?.lastPrice?.size?.let { it > 0 } ?: false) {
+            val now = price?.price?.lastPrice?.get(0)
+            val today = price?.price?.todayPrice
+            if (today != null) {
+                return (now?.div(today)?.minus(1))?.times(100)
+            }
+            return null
+        }
+        return null
     }
 }

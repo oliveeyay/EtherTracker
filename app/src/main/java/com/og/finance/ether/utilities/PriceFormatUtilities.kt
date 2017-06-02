@@ -38,12 +38,12 @@ object PriceFormatUtilities {
      * @return The formated string used in [NotificationUtilities]
      */
     fun getPriceFormatted(context: Context, etherApi: AbstractEtherApi?): String {
-        if (etherApi == null || etherApi.priceValue == null || etherApi.priceChange == null) {
+        if (etherApi == null || etherApi.getPriceValue() == null || etherApi.getPriceChange() == null) {
             return context.resources.getString(R.string.network_error)
         }
 
-        var text = "$" + formatTwoDecimals(etherApi.priceValue)
-        text += " || Chg: " + formatTwoDecimals(etherApi.priceChange) + "%"
+        var text = "$" + formatTwoDecimals(etherApi.getPriceValue())
+        text += " || Chg: " + formatTwoDecimals(etherApi.getPriceChange()) + "%"
 
         val priceFromBuying = getPriceFromBuying(context, etherApi)
         text += " || Chg from buying: " + priceFromBuying
@@ -53,13 +53,12 @@ object PriceFormatUtilities {
 
     /**
      * Returns the string indicating the price change since buying
-
      * @param etherApi The current [AbstractEtherApi]
      */
     fun getPriceFromBuying(context: Context, etherApi: AbstractEtherApi?): String {
         val buyingValue = SharedPreferencesUtilities.getFloatForKey(context, SharedPreferencesUtilities.SHARED_BUYING_VALUE)
-        if (buyingValue != 0.0f && etherApi != null && etherApi.priceValue != null) {
-            val percentChange = (etherApi.priceValue!! / buyingValue - 1) * 100
+        if (buyingValue != 0.0f && etherApi != null && etherApi.getPriceValue() != null) {
+            val percentChange = (etherApi.getPriceValue()!! / buyingValue - 1) * 100
             return formatTwoDecimals(percentChange) + "%"
         }
 

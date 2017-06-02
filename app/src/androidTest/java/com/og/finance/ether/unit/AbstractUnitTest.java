@@ -40,7 +40,7 @@ public class AbstractUnitTest {
      * Returns the {@link Context} from the {@link android.app.Instrumentation}
      */
     protected Context getContext() {
-        return getInstrumentation().getContext();
+        return getInstrumentation().getTargetContext();
     }
 
 }
