@@ -31,9 +31,9 @@ public class AbstractUnitTest {
     @Before
     public void setUp() throws Exception {
         //Just deleting the SharedPreferences, to be sure we start fresh
-        SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE);
-        SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID);
-        SharedPreferencesUtilities.deleteKey(getContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE);
+        SharedPreferencesUtilities.INSTANCE.deleteKey(getContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE());
+        SharedPreferencesUtilities.INSTANCE.deleteKey(getContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID());
+        SharedPreferencesUtilities.INSTANCE.deleteKey(getContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_SERVICE_ACTIVE());
     }
 
     /**

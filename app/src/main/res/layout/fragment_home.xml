@@ -170,7 +170,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:gravity="bottom"
-                    android:onClick="@{homeFragment.onDonationClicked}"
+                    android:onClick="@{homeFragment::onDonationClicked}"
                     android:text="@string/fragment_home_donation"
                     android:textColor="@android:color/white" />
             </RelativeLayout>

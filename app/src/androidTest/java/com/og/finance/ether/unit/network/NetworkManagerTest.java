@@ -59,21 +59,21 @@ public class NetworkManagerTest extends AbstractUnitTest implements NetworkCallb
         //Test with Polionex
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.POLONIEX;
-        SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
+        SharedPreferencesUtilities.INSTANCE.storeIntForKey(getContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID(), mCurrentEndpoint.getId());
         NetworkManager.Companion.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
 
         //Test with Kraken
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.KRAKEN;
-        SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
+        SharedPreferencesUtilities.INSTANCE.storeIntForKey(getContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID(), mCurrentEndpoint.getId());
         NetworkManager.Companion.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
 
         //Test with CoinMarketCap
         mCountDownLatch = new CountDownLatch(1);
         mCurrentEndpoint = Endpoint.COIN_MARKET_CAP;
-        SharedPreferencesUtilities.storeIntForKey(getContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID, mCurrentEndpoint.getId());
+        SharedPreferencesUtilities.INSTANCE.storeIntForKey(getContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID(), mCurrentEndpoint.getId());
         NetworkManager.Companion.getCurrentEthValue(getContext(), this);
         mCountDownLatch.await();
     }

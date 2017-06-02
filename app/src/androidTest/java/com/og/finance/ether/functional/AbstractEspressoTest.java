@@ -50,9 +50,9 @@ public class AbstractEspressoTest {
     @Before
     public void setUp() throws Exception {
         //Just deleting the SharedPreferences, to be sure we start fresh
-        SharedPreferencesUtilities.deleteKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE);
-        SharedPreferencesUtilities.deleteKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID);
-        SharedPreferencesUtilities.deleteKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE);
+        SharedPreferencesUtilities.INSTANCE.deleteKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE());
+        SharedPreferencesUtilities.INSTANCE.deleteKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID());
+        SharedPreferencesUtilities.INSTANCE.deleteKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_SERVICE_ACTIVE());
     }
 
     /**

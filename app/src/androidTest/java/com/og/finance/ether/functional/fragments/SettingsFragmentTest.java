@@ -62,7 +62,7 @@ public class SettingsFragmentTest extends AbstractEspressoTest {
 
         //Click on coinmarketcap
         clickOnView(R.id.fragment_settings_radio_coinmarketcap);
-        assertEquals(2, SharedPreferencesUtilities.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+        assertEquals(2, SharedPreferencesUtilities.INSTANCE.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID()));
 
         //Go back to home and test source
         Espresso.pressBack();
@@ -76,11 +76,11 @@ public class SettingsFragmentTest extends AbstractEspressoTest {
 
         //Click on Kraken
         clickOnView(R.id.fragment_settings_radio_kraken);
-        assertEquals(3, SharedPreferencesUtilities.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+        assertEquals(3, SharedPreferencesUtilities.INSTANCE.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID()));
 
         //Click on Polionex again
         clickOnView(R.id.fragment_settings_radio_polionex);
-        assertEquals(1, SharedPreferencesUtilities.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_ENDPOINT_ID));
+        assertEquals(1, SharedPreferencesUtilities.INSTANCE.getIntForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_ENDPOINT_ID()));
 
         //Go back to home and test source
         Espresso.pressBack();
@@ -104,17 +104,17 @@ public class SettingsFragmentTest extends AbstractEspressoTest {
         //Test notification enabled by default
         final CheckBox checkBox = (CheckBox) getView(R.id.fragment_settings_notification_checkbox);
         assertTrue(checkBox.isChecked());
-        assertTrue(SharedPreferencesUtilities.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
+        assertTrue(SharedPreferencesUtilities.INSTANCE.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_SERVICE_ACTIVE()));
 
         //Test disable notification
         clickOnView(R.id.fragment_settings_notification_checkbox);
         assertFalse(checkBox.isChecked());
-        assertFalse(SharedPreferencesUtilities.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
+        assertFalse(SharedPreferencesUtilities.INSTANCE.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_SERVICE_ACTIVE()));
 
         //Test re-enable notification
         clickOnView(R.id.fragment_settings_notification_checkbox);
         assertTrue(checkBox.isChecked());
-        assertTrue(SharedPreferencesUtilities.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_SERVICE_ACTIVE));
+        assertTrue(SharedPreferencesUtilities.INSTANCE.getBooleanForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_SERVICE_ACTIVE()));
     }
 
     /**
@@ -130,13 +130,13 @@ public class SettingsFragmentTest extends AbstractEspressoTest {
         goToSettings();
 
         //No buying price
-        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(0.0f, SharedPreferencesUtilities.INSTANCE.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE()));
 
         //Buying price saved
         replaceText(R.id.fragment_settings_edittext, "10");
-        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(0.0f, SharedPreferencesUtilities.INSTANCE.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE()));
         clickOnView(R.id.fragment_settings_edittext_save_button);
-        assertEquals(10.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(10.0f, SharedPreferencesUtilities.INSTANCE.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE()));
 
         //Check HomeFragment
         Espresso.pressBack();
@@ -146,9 +146,9 @@ public class SettingsFragmentTest extends AbstractEspressoTest {
 
         //Reset buying price
         replaceText(R.id.fragment_settings_edittext, "");
-        assertEquals(10.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(10.0f, SharedPreferencesUtilities.INSTANCE.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE()));
         clickOnView(R.id.fragment_settings_edittext_save_button);
-        assertEquals(0.0f, SharedPreferencesUtilities.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE));
+        assertEquals(0.0f, SharedPreferencesUtilities.INSTANCE.getFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE()));
     }
 
     /**

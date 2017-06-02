@@ -60,7 +60,7 @@
                         android:id="@+id/fragment_settings_edittext_save_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="@{settingsFragment.onSaveButtonClicked}"
+                        android:onClick="@{settingsFragment::onSaveButtonClicked}"
                         android:text="@string/fragment_settings_save" />
                 </LinearLayout>
 
@@ -94,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:onClick="@{settingsFragment.onRadioButtonClicked}"
+                        android:onClick="@{settingsFragment::onRadioButtonClicked}"
                         android:text="@string/fragment_settings_polionex"
                         android:textColor="@android:color/white" />
 
@@ -102,7 +102,7 @@
                         android:id="@+id/fragment_settings_radio_coinmarketcap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="@{settingsFragment.onRadioButtonClicked}"
+                        android:onClick="@{settingsFragment::onRadioButtonClicked}"
                         android:text="@string/fragment_settings_coinmarketcap"
                         android:textColor="@android:color/white" />
 
@@ -110,7 +110,7 @@
                         android:id="@+id/fragment_settings_radio_kraken"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="@{settingsFragment.onRadioButtonClicked}"
+                        android:onClick="@{settingsFragment::onRadioButtonClicked}"
                         android:text="@string/fragment_settings_kraken"
                         android:textColor="@android:color/white" />
                 </RadioGroup>

@@ -44,9 +44,7 @@ public class PriceFormatUtilities {
         text += " || Chg: " + formatTwoDecimals(etherApi.getPriceChange()) + "%";
 
         String priceFromBuying = getPriceFromBuying(context, etherApi);
-        if (priceFromBuying != null) {
-            text += " || Chg from buying: " + priceFromBuying;
-        }
+        text += " || Chg from buying: " + priceFromBuying;
 
         return text;
     }
@@ -57,7 +55,7 @@ public class PriceFormatUtilities {
      * @param etherApi The current {@link AbstractEtherApi}
      */
     public static String getPriceFromBuying(Context context, AbstractEtherApi etherApi) {
-        float buyingValue = SharedPreferencesUtilities.getFloatForKey(context, SharedPreferencesUtilities.SHARED_BUYING_VALUE);
+        float buyingValue = SharedPreferencesUtilities.INSTANCE.getFloatForKey(context, SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE());
         if (buyingValue != 0.0f && etherApi != null && etherApi.getPriceValue() != null) {
             float percentChange = ((etherApi.getPriceValue() / buyingValue) - 1) * 100;
             return formatTwoDecimals(percentChange) + "%";

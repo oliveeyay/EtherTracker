@@ -66,7 +66,7 @@ public class HomeFragmentTest extends AbstractEspressoTest {
         assertTrue(((TextView) getView(R.id.fragment_home_source)).getText().toString().contains(Endpoint.KRAKEN.getEndpointName()));
 
         //Test api null
-        SharedPreferencesUtilities.storeFloatForKey(getCurrentActivity(), SharedPreferencesUtilities.SHARED_BUYING_VALUE, 10.0f);
+        SharedPreferencesUtilities.INSTANCE.storeFloatForKey(getCurrentActivity(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE(), 10.0f);
         homeFragment.getBinding().setEtherApi(null);
         executePendingBindings(homeFragment.getBinding());
         assertEquals("", ((TextView) getView(R.id.fragment_home_change)).getText().toString());

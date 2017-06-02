@@ -50,25 +50,25 @@ public class NotificationUtilitiesTest extends AbstractUnitTest {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Test no notification
             NotificationManager notificationManager = (NotificationManager) getInstrumentation().getTargetContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationUtilities.cancelNotification(getInstrumentation().getTargetContext());
+            NotificationUtilities.INSTANCE.cancelNotification(getInstrumentation().getTargetContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with null api
-            NotificationUtilities.showNotification(getInstrumentation().getTargetContext(), null);
+            NotificationUtilities.INSTANCE.showNotification(getInstrumentation().getTargetContext(), null);
             Thread.sleep(500);
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.cancelNotification(getInstrumentation().getTargetContext());
+            NotificationUtilities.INSTANCE.cancelNotification(getInstrumentation().getTargetContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
 
             //Test notification with correct api
-            NotificationUtilities.showNotification(getInstrumentation().getTargetContext(), new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
+            NotificationUtilities.INSTANCE.showNotification(getInstrumentation().getTargetContext(), new PolionexEtherApi(new PolionexPriceApi(10.0f, 10.0f)));
             Thread.sleep(500);
             assertEquals(1, notificationManager.getActiveNotifications().length);
 
             //Test cancel notification
-            NotificationUtilities.cancelNotification(getInstrumentation().getTargetContext());
+            NotificationUtilities.INSTANCE.cancelNotification(getInstrumentation().getTargetContext());
             assertEquals(0, notificationManager.getActiveNotifications().length);
         }
     }

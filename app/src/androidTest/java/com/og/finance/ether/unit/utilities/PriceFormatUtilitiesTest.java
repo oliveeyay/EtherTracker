@@ -71,7 +71,7 @@ public class PriceFormatUtilitiesTest extends AbstractUnitTest {
         assertTrue(result.contains("11") && result.contains("20"));
 
         //Try with buying price
-        SharedPreferencesUtilities.storeFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE, 10.0f);
+        SharedPreferencesUtilities.INSTANCE.storeFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE(), 10.0f);
         result = PriceFormatUtilities.getPriceFormatted(getInstrumentation().getTargetContext(), polionexEtherApi);
         assertTrue(result.contains("11") && result.contains("20") && result.contains("10"));
 
@@ -117,7 +117,7 @@ public class PriceFormatUtilitiesTest extends AbstractUnitTest {
         assertEquals("", PriceFormatUtilities.getPriceFromBuying(getInstrumentation().getTargetContext(), polionexEtherApi));
 
         //Buying but no api
-        SharedPreferencesUtilities.storeFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.SHARED_BUYING_VALUE, 10.0f);
+        SharedPreferencesUtilities.INSTANCE.storeFloatForKey(getInstrumentation().getTargetContext(), SharedPreferencesUtilities.INSTANCE.getSHARED_BUYING_VALUE(), 10.0f);
         assertEquals("", PriceFormatUtilities.getPriceFromBuying(getInstrumentation().getTargetContext(), null));
 
         //Both there
